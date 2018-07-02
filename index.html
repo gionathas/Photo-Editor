@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="layout.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <title>Photo Editor</title>
+    </head>
+    <body>
+
+        <header>
+            <h1>Photo Editor</h1>
+        </header>
+
+        <div class="container">
+            
+            <!-- Navbar  -->
+            <div class="icon-bar">
+                <a id="settingsBtn" href="#"><i class="fa fa-cog"></i> <span class="tooltip">Settings</span></a>
+                <a id="editBtn" class="active" href="#"><i class="fa fa-sliders"></i><span class="tooltip">Basic Edit</span></a>
+                <a id="filtersBtn" href="#"><i class="fa fa-magic"></i><span class="tooltip">Filters</span></a>
+                <a id="textBtn" href="#"><i class="fa fa-font"></i><span class="tooltip">Text</span></a>
+                <a id="paintBtn" href="#"><i class="fa fa-paint-brush"></i><span class="tooltip">Paint</span></a> 
+            </div>
+
+            <!-- Stage with Canvas and Editor -->
+            <div class="main-stage">
+
+                <!-- Canvas with Image -->
+                 <canvas id="canvas"></canvas>
+                
+                <!-- Editor -->
+                <div class="editor">
+
+                        <div class="settings">
+                            <h2>Settings</h2>
+
+                            <div class="button-area">
+                                <button id="uploadBtn"><i class="fa fa-upload"></i> Upload Photo</button>
+                                <button id="saveBtn"><i class="fa fa-download"></i> Save Photo</button>
+                                <button id="resetBtn"><i class="fa fa-undo"></i> Reset Photo</button>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="basic-edits">
+
+                            <h2>Edit Photo</h2>
+                            
+                            <div class="edit-area">
+                                <div class="element">
+                                        <i class="fa fa-crop"></i>
+                                        <p>Crop</p>
+                                    </div>
+                
+                                    <div class="element">
+                                        <i class="fa fa-refresh" data-fa-transform="rotate-45"></i>
+                                        <p>Rotate</p>
+                                    </div>
+                
+                                    
+                                    <div class="element">
+                                            <i class="fa fa-search-plus"></i>
+                                            <label>Zoom</label>
+                                            <input type="range" name="" id="" min="0" max="2">
+                                            <span>Reset</span>
+                                    </div>
+                
+                                    <div class="element">
+                                        <i class="fa fa-adjust"></i>
+                                        <label>Contrast</label>
+                                        <input type="range" name="" id="" min="0" max="2">
+                                        <span>Reset</span>
+                                    </div>
+                
+                                    <div class="element">
+                                            <i class="fa fa-sun-o"></i>
+                                            <label>Brightness</label>
+                                            <input type="range" name="" id="" min="0" max="2">
+                                            <span>Reset</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                    </div>
+                    
+                    
+                    <!-- end editor -->
+                </div>
+                
+                <!-- end main stage -->
+            </div>            
+
+            <!-- end container -->
+        </div> 
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.js"></script>
+        <script src="main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,226 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color:#252a32;
+}
+
+header{
+    background-color: #3a3f46;
+    color: white;
+    text-align: center;
+    padding: 15px 0px;
+    margin-bottom: 3%;
+    font-size: 20px;
+}
+
+.container{
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border-radius: 10px;
+    border: 1px solid rgb(156, 156, 156);
+    font-family: 'Roboto', sans-serif;
+}
+
+/* ICON BAR STYLE */
+.icon-bar{
+    width: 100%;
+    background-color: #1d1f23;
+    overflow:auto;
+    border-radius: 10px;
+}
+
+.icon-bar a{
+    float: left;
+    text-align: center;
+    text-decoration: none;
+    width: 20%;
+    padding: 12px 0;
+    transition: all 0.3 ease; /* transition for hover effects */
+    color: white;
+    font-size: 30px;
+    position: relative;
+}
+
+#dropdown .dropdown-content{
+    position: absolute;
+    display: none;
+    background-color: #f9f9f9;
+    z-index: 1;
+}
+
+.dropdown-content li{
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+ 
+.icon-bar a .tooltip{
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 8px;
+    border-radius: 6px;
+
+    position: absolute;
+    font-size: 15px;
+    left: 58%;
+    top: 10%;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.icon-bar a:hover{
+    color:#107FC9;
+    cursor:pointer; 
+}
+
+.icon-bar a:hover .tooltip{
+    visibility: visible;
+    opacity: 1;
+}
+
+.icon-bar .active{
+    background-color: #333538;
+}
+
+.main-stage{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    overflow: auto;
+    height: 600px;
+}
+
+/* CANVAS EDITOR */
+#canvas{
+    width: 65%;
+    /* background-color:yellowgreen; */
+    border-radius: 2px;
+    background-color: #eeeeee;
+}
+
+/* EDITOR STYLE */
+.editor{
+    width: 35%;
+    border-radius: 3px;
+    background-color:#2e3238;
+    color: white;
+}
+
+/* SETTINGS STYLE */
+.settings h2{
+    text-align: center;
+    background-color: #282c31;
+    padding: 20px 0px;
+    border-radius: 2px;
+    font-size: 26px;
+}
+
+.settings button{
+    padding: 16px;
+    border-radius: 4px;
+    border:none;
+    color: white;
+    overflow: auto;
+    font-size: 20px;
+    display: block;
+    width: 40%;
+    margin-top: 10%;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.settings button:hover{
+    cursor: pointer;
+}
+
+
+#uploadBtn{
+    background-color: #008CBA;
+}
+
+#saveBtn{
+    background-color: green;
+}
+
+#resetBtn{
+    background-color: red
+}
+
+.button-area{
+    padding-top: 9%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+/*BASIC EDIT STYLE*/
+
+
+.basic-edits{
+    display: none;
+}    
+
+.basic-edits h2{
+    text-align: center;
+    background-color: #282c31;
+    padding: 20px 0px;
+    border-radius: 2px;
+}
+
+.edit-area{
+    padding: 0px 18px;
+}
+
+.edit-area i{
+    font-size: 30px;
+}
+
+.element{
+    padding: 20px;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+}
+
+.element:hover{
+    background-color:#575a5f;
+}
+
+.element:not(:last-child){
+    border-bottom: 1px solid rgb(160, 159, 159);
+}
+
+.element i{
+    flex-basis: 8%;
+}
+
+.element label,p{
+    font-size: 19px;
+    /* border: 1px solid white; */
+    flex-basis: 25%;
+}
+
+.element input{
+    /* border: 1px solid white; */
+    flex-basis: 55%;
+}
+
+.element span{
+    color:rgb(88, 88, 192);
+    visibility: hidden;
+}
+
+.element span:hover{
+    cursor: pointer;
+}
