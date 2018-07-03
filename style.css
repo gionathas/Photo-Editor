@@ -126,20 +126,36 @@ header{
     font-size: 26px;
 }
 
-.settings button{
+/* Hide input element */
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+    background-color: rgb(0, 96, 186);
+}
+
+
+.settings button, .settings .inputfile + label{
     padding: 16px;
     border-radius: 4px;
     border:none;
+    text-align: center;
     color: white;
     overflow: auto;
     font-size: 20px;
     display: block;
     width: 40%;
-    margin-top: 10%;
+    margin-top: 8%;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
-.settings button:hover{
+.settings button:hover, .settings .inputfile + label{
     cursor: pointer;
 }
 
