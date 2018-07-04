@@ -3,22 +3,19 @@ $(document).ready(() => {
     const fadeTime = 300;
 
     //canvas element
-    const canvas = document.getElementById("canvas");
-    const context = canvas.getContext('2d');
+    let canvas,context;
+
+    //image element
+    const image = $("#canvas");
 
     //buttons
     const uploadBtn = $("#file");
 
     //image element
     let imageUploaded = false;
-    let filename = '';
-    let img = new Image();
-    img.onload = function() {
-        fitImageOn(canvas,img);
-    };
 
-    let activeEditor = $(".settings");
-    let activeIconBar = $("#settingsBtn");
+    let activeEditor = $(".basic-edits");
+    let activeIconBar = $("#editBtn");
 
     //FUNCTIONS
 
@@ -60,7 +57,8 @@ $(document).ready(() => {
     
         reader.addEventListener("load",() => {
             //update image src, with the file readed
-            img.src = reader.result;
+            //img.src = reader.result;
+            image.attr("src",reader.result);
         });
     }
 
@@ -102,7 +100,7 @@ $(document).ready(() => {
     };
 
     //photo test
-    img.src = "/home/gio/Scrivania/js/simpleImageFilter/img/moto.jpg";
+    //img.src = "/home/gio/Scrivania/js/simpleImageFilter/img/moto.jpg";
 
     // Assign all panel animation to icon bar element
     $("#editBtn").click(function(){panelAnimation($(".basic-edits"),$(this))});
@@ -113,8 +111,35 @@ $(document).ready(() => {
     // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
     // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
 
+    //on click on Choose Photo Button
     uploadBtn.change(() => uploadPhoto());
 
+    function changeSliderHandler(event){
+        Caman('#canvas',function(){
+            this[event.target.name](event.target.value).render();
+        });
+    }
 
-    canvas.click(uploadPhoto);
+
+    //save button 
+    $("#saveBtn").click(() =>{
+        Caman('#canvas',function(){
+            this.render(function(){
+                this.save('image.png');
+            });
+        });
+    });
+
+    //brightness adjustment
+    $("#brightness").change(function(){
+        console.log($(this).val());
+        let val = $(this).val();
+        Caman('#canvas',function(){
+            this.brightness(val).render();
+        })
+    });
+
+
+    //On canvas click update photo
+    //canvas.click(uploadPhoto();
 });

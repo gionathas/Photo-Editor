@@ -21,8 +21,8 @@
             
             <!-- Navbar  -->
             <div class="icon-bar">
-                <a id="settingsBtn" class="active" href="#"><i class="fa fa-cog"></i> <span class="tooltip">Settings</span></a>
-                <a id="editBtn" class="" href="#"><i class="fa fa-sliders"></i><span class="tooltip">Basic Edit</span></a>
+                <a id="settingsBtn" class="" href="#"><i class="fa fa-cog"></i> <span class="tooltip">Settings</span></a>
+                <a id="editBtn" class="active" href="#"><i class="fa fa-sliders"></i><span class="tooltip">Basic Edit</span></a>
                 <a id="filtersBtn" href="#"><i class="fa fa-magic"></i><span class="tooltip">Filters</span></a>
                 <a id="textBtn" href="#"><i class="fa fa-font"></i><span class="tooltip">Text</span></a>
                 <a id="paintBtn" href="#"><i class="fa fa-paint-brush"></i><span class="tooltip">Paint</span></a> 
@@ -31,13 +31,13 @@
             <!-- Stage with Canvas and Editor -->
             <div class="main-stage">
 
+                <img id="canvas" src="/home/gio/Scrivania/js/simpleImageFilter/img/moto.jpg" alt="">
                 <!-- Canvas with Image -->
-                <canvas id="canvas" width="990px" height="700px"></canvas>
     
                 <!-- Editor -->
                 <div class="editor">
 
-                        <div class="settings">
+                        <div class="settings" style="display: none;">
                             <h2>Settings</h2>
 
                             <div class="button-area">
@@ -69,21 +69,21 @@
                                     <div class="element">
                                             <i class="fa fa-search-plus"></i>
                                             <label>Zoom</label>
-                                            <input type="range" name="" id="" min="0" max="2">
+                                            <input id="zoom" type="range" name="" id="" min="0" max="2">
                                             <span>Reset</span>
                                     </div>
                 
                                     <div class="element">
                                         <i class="fa fa-adjust"></i>
                                         <label>Contrast</label>
-                                        <input type="range" name="" id="" min="0" max="2">
+                                        <input id="contrast" type="range" name="" id="" min="0" max="2">
                                         <span>Reset</span>
                                     </div>
                 
                                     <div class="element">
                                             <i class="fa fa-sun-o"></i>
                                             <label>Brightness</label>
-                                            <input type="range" name="" id="" min="0" max="2">
+                                            <input name="brightness" id="brightness" type="range" min="-100" max="100" value="0">
                                             <span>Reset</span>
                                     </div>
                                 </div>

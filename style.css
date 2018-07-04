@@ -98,13 +98,26 @@ header{
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    overflow: auto;
+    overflow: hidden;
+    height: 600px;
 }
 
 /* CANVAS EDITOR */
+/* .canvas-area{
+    width: 65%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(black, darkblue);;
+} */
+
 #canvas{
-    background-color:black;
-    border-radius: 8px;
+    background: linear-gradient(to bottom,#29323c,#485563);
+    border: 2px dotted black;
+    width: 65%;
+    height: 600px;
+    object-fit: contain;
 }
 
 /* EDITOR STYLE */
@@ -178,12 +191,7 @@ header{
     align-items: center;
 }
 
-/*BASIC EDIT STYLE*/
-
-
-.basic-edits{
-    display: none;
-}    
+/*BASIC EDIT STYLE*/  
 
 .basic-edits h2{
     text-align: center;
