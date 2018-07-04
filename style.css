@@ -23,9 +23,10 @@ header{
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    border-radius: 10px;
-    border: 1px solid rgb(156, 156, 156);
+    border-radius: 8px;
+    border: 1px solid rgb(83, 83, 83);
     font-family: 'Roboto', sans-serif;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
 /* ICON BAR STYLE */
@@ -33,7 +34,7 @@ header{
     width: 100%;
     background-color: #1d1f23;
     overflow:auto;
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 .icon-bar a{
@@ -98,21 +99,18 @@ header{
     flex-wrap: wrap;
     flex-direction: row;
     overflow: auto;
-    height: 600px;
 }
 
 /* CANVAS EDITOR */
 #canvas{
-    width: 65%;
-    /* background-color:yellowgreen; */
-    border-radius: 2px;
-    background-color: #eeeeee;
+    background-color:black;
+    border-radius: 8px;
 }
 
 /* EDITOR STYLE */
 .editor{
     width: 35%;
-    border-radius: 3px;
+    border-radius: 5px;
     background-color:#2e3238;
     color: white;
 }
@@ -209,7 +207,7 @@ header{
     align-items: center;
 }
 
-.element:hover{
+#crop:hover,#rotate:hover{
     background-color:#575a5f;
 }
 
@@ -230,6 +228,10 @@ header{
 .element input{
     /* border: 1px solid white; */
     flex-basis: 55%;
+}
+
+.element input[type=range]{
+    cursor: move;
 }
 
 .element span{
