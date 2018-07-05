@@ -1,0 +1,62 @@
+/* SETTINGS STYLE */
+.settings h2{
+    text-align: center;
+    background-color: #282c31;
+    padding: 20px 0px;
+    border-radius: 2px;
+    font-size: 26px;
+}
+
+/* Hide input element */
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+    background-color: rgb(0, 96, 186);
+}
+
+
+button, .settings .inputfile + label{
+    padding: 16px;
+    border-radius: 4px;
+    border:none;
+    text-align: center;
+    color: white;
+    overflow: auto;
+    font-size: 20px;
+    display: block;
+    width: 40%;
+    margin-top: 8%;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+button:hover, .settings .inputfile + label{
+    cursor: pointer;
+}
+
+
+#uploadBtn{
+    background-color: #008CBA;
+}
+
+#saveBtn{
+    background-color: green;
+}
+
+#resetBtn{
+    background-color: red
+}
+
+.button-area{
+    padding-top: 9%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+}

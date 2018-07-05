@@ -17,7 +17,72 @@ $(document).ready(() => {
     let activeEditor = $(".basic-edits");
     let activeIconBar = $("#editBtn");
 
-    //FUNCTIONS
+    //all sliders tools in basic edit
+    const sliders = $('input[type=range]');
+
+    //INIT FUNCTION
+    resetAllSliders();
+
+    // Assign all panel animation to icon bar element
+    $("#editBtn").click(function(){panelAnimation($(".basic-edits"),$(this))});
+    $("#settingsBtn").click(function(){panelAnimation($(".settings"),$(this))});
+    // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
+    // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
+    // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
+    // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
+    // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
+
+    //on click on Choose Photo Button
+    uploadBtn.change(() => uploadPhoto());
+
+    //apply edit filter when a slider value change
+    sliders.on('change',applyEditFilters);
+
+    //on click on reset of edit tool element
+    $(".element span").click(function(){
+        let name = $(this).attr('id').replace('-rst','');
+        
+        //find the slider to change value
+        for (let i = 0; i < sliders.length; i++) {
+            const element = sliders[i];
+            
+            if(element.id === name){
+                element.value = 0;
+                break;
+            }
+        }
+
+        //update edit filters
+        applyEditFilters();
+    });
+
+    //on click on button reset of basic edits
+    $('#resetEditBtn').click(() =>{
+        resetAllSliders();
+        applyEditFilters();
+    });
+
+    //on click on save button 
+    $("#saveBtn").click(() =>{
+        Caman('#canvas',function(){
+            this.render(function(){
+                this.save('image.png');
+            });
+        });
+    });
+
+    //On canvas click update photo
+    //canvas.click(uploadPhoto();
+
+    
+    //******* FUNCTIONS **************
+
+    //set all sliders to default value
+    function resetAllSliders(){
+        sliders.each(function(){
+            $(this).val(0);
+        });
+    }
 
     //panel and icon bar animation
     function panelAnimation(newEditor,newIconBar){
@@ -62,84 +127,26 @@ $(document).ready(() => {
         });
     }
 
-    //fit image on canvas
-    var fitImageOn = function(canvas, imageObj) {
 
-        context.clearRect(0, 0, canvas.width, canvas.height);
+    function applyEditFilters(){
+        const brgt = parseInt($('#brightness').val());
+        const ctrs = parseInt($('#contrast').val());
+        const str = parseInt($('#saturation').val());
+        const hue =  parseInt($('#hue').val());
+        const noise = parseInt($('#noise').val());
+        const blur = parseInt($('#blur').val());
+        const expo = parseInt($('#exposure').val());
 
-        let imageDimensionRatio = imageObj.width / imageObj.height;
-        let canvasDimensionRatio = canvas.width / canvas.height;
-        let renderableHeight, renderableWidth, xStart, yStart;
-
-
-        // If image's aspect ratio is less than canvas's we fit on height
-        // and place the image centrally along width
-        if(imageDimensionRatio < canvasDimensionRatio) {
-            renderableHeight = canvas.height;
-            renderableWidth = imageObj.width * (renderableHeight / imageObj.height);
-            xStart = (canvas.width - renderableWidth) / 2;
-            yStart = 0;
-        } 
-        // If image's aspect ratio is greater than canvas's we fit on width
-	    // and place the image centrally along height
-        else if(imageDimensionRatio > canvasDimensionRatio) {
-            renderableWidth = canvas.width
-            renderableHeight = imageObj.height * (renderableWidth / imageObj.width);
-            xStart = 0;
-            yStart = (canvas.height - renderableHeight) / 2;
-        } 
-        // Happy path - keep aspect ratio
-        else {
-            renderableHeight = canvas.height;
-            renderableWidth = canvas.width;
-            xStart = 0;
-            yStart = 0;
-        }
-
-        context.drawImage(imageObj, xStart, yStart, renderableWidth, renderableHeight);
-    };
-
-    //photo test
-    //img.src = "/home/gio/Scrivania/js/simpleImageFilter/img/moto.jpg";
-
-    // Assign all panel animation to icon bar element
-    $("#editBtn").click(function(){panelAnimation($(".basic-edits"),$(this))});
-    $("#settingsBtn").click(function(){panelAnimation($(".settings"),$(this))});
-    // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
-    // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
-    // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
-    // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
-    // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
-
-    //on click on Choose Photo Button
-    uploadBtn.change(() => uploadPhoto());
-
-    function changeSliderHandler(event){
         Caman('#canvas',function(){
-            this[event.target.name](event.target.value).render();
-        });
-    }
-
-
-    //save button 
-    $("#saveBtn").click(() =>{
-        Caman('#canvas',function(){
-            this.render(function(){
-                this.save('image.png');
-            });
-        });
-    });
-
-    //brightness adjustment
-    $("#brightness").change(function(){
-        console.log($(this).val());
-        let val = $(this).val();
-        Caman('#canvas',function(){
-            this.brightness(val).render();
+            this.revert(false);
+            this.brightness(brgt);
+            this.contrast(ctrs);
+            this.saturation(str);
+            this.hue(hue);
+            this.noise(noise);
+            this.stackBlur(blur);
+            this.exposure(expo);
+            this.render();
         })
-    });
-
-
-    //On canvas click update photo
-    //canvas.click(uploadPhoto();
+    }
 });

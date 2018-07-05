@@ -1,0 +1,65 @@
+/*BASIC EDIT STYLE*/  
+
+.basic-edits h2{
+    text-align: center;
+    background-color: #282c31;
+    padding: 20px 0px;
+    border-radius: 2px;
+}
+
+.edit-area{
+    padding: 0px 18px;
+}
+
+.edit-area i{
+    font-size: 30px;
+}
+
+#resetEditBtn{
+    background-color: red;
+    margin: 20px auto;
+}
+
+.element{
+    padding: 25px;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+}
+
+#crop:hover,#rotate:hover{
+    background-color:#575a5f;
+}
+
+.element:not(:last-child){
+    border-bottom: 1px solid rgb(160, 159, 159);
+}
+
+.element i{
+    flex-basis: 10%;
+    font-size: 25px;
+}
+
+.element label,p{
+    font-size: 19px;
+    /* border: 1px solid white; */
+    flex-basis: 29%;
+}
+
+.element input{
+    /* border: 1px solid white; */
+    flex-basis: 70%;
+}
+
+.element input[type=range]{
+    cursor: move;
+}
+
+.element span{
+    color:rgb(88, 88, 192);
+    visibility: visible;
+}
+
+.element span:hover{
+    cursor: pointer;
+}

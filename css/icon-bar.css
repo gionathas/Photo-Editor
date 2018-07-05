@@ -1,0 +1,64 @@
+/* ICON BAR STYLE */
+.icon-bar{
+    width: 100%;
+    background-color: #1d1f23;
+    overflow:auto;
+    border-radius: 8px;
+}
+
+.icon-bar a{
+    float: left;
+    text-align: center;
+    text-decoration: none;
+    width: 20%;
+    padding: 12px 0;
+    transition: all 0.3 ease; /* transition for hover effects */
+    color: white;
+    font-size: 30px;
+    position: relative;
+}
+
+#dropdown .dropdown-content{
+    position: absolute;
+    display: none;
+    background-color: #f9f9f9;
+    z-index: 1;
+}
+
+.dropdown-content li{
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+ 
+.icon-bar a .tooltip{
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 8px;
+    border-radius: 6px;
+
+    position: absolute;
+    font-size: 15px;
+    left: 58%;
+    top: 10%;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.icon-bar a:hover{
+    color:#107FC9;
+    cursor:pointer; 
+}
+
+.icon-bar a:hover .tooltip{
+    visibility: visible;
+    opacity: 1;
+}
+
+.icon-bar .active{
+    background-color: #333538;
+}

@@ -5,9 +5,14 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="layout.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <link rel="stylesheet" href="style.css"> -->
+        <link rel="stylesheet" href="css/layout.css">
+        <link rel="stylesheet" href="css/icon-bar.css">
+        <link rel="stylesheet" href="css/settings-style.css">
+        <link rel="stylesheet" href="css/basic-edits-style.css">
+
+        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
         <title>Photo Editor</title>
     </head>
@@ -21,10 +26,10 @@
             
             <!-- Navbar  -->
             <div class="icon-bar">
-                <a id="settingsBtn" class="" href="#"><i class="fa fa-cog"></i> <span class="tooltip">Settings</span></a>
-                <a id="editBtn" class="active" href="#"><i class="fa fa-sliders"></i><span class="tooltip">Basic Edit</span></a>
+                <a id="settingsBtn" class="" href="#"><i class="fa fa-cogs"></i> <span class="tooltip">Settings</span></a>
+                <a id="editBtn" class="active" href="#"><i class="fas fa-edit"></i><span class="tooltip">Basic Edit</span></a>
                 <a id="filtersBtn" href="#"><i class="fa fa-magic"></i><span class="tooltip">Filters</span></a>
-                <a id="textBtn" href="#"><i class="fa fa-font"></i><span class="tooltip">Text</span></a>
+                <a id="textBtn" href="#"><i class="fas fa-font"></i><span class="tooltip">Text</span></a>
                 <a id="paintBtn" href="#"><i class="fa fa-paint-brush"></i><span class="tooltip">Paint</span></a> 
             </div>
 
@@ -37,6 +42,7 @@
                 <!-- Editor -->
                 <div class="editor">
 
+                        <!-- SETTINGS PANEL -->
                         <div class="settings" style="display: none;">
                             <h2>Settings</h2>
 
@@ -50,42 +56,75 @@
                             
                         </div>
                         
+                        <!-- BASIC EDIT PANEL -->
                         <div class="basic-edits">
 
                             <h2>Edit Photo</h2>
                             
                             <div class="edit-area">
                                 <div id="crop" class="element">
-                                        <i class="fa fa-crop"></i>
+                                        <i class="fa fa-crop-alt"></i>
                                         <p>Crop</p>
                                     </div>
                 
                                     <div id="rotate" class="element">
-                                        <i class="fa fa-refresh" data-fa-transform="rotate-45"></i>
+                                        <i class="fa fa-sync" data-fa-transform="rotate-45"></i>
                                         <p>Rotate</p>
+                                    </div>
+
+                                    <div class="element">
+                                        <i class="fa fa-adjust"></i>
+                                        <label>Contrast</label>
+                                        <input id="contrast" type="range" name="contrast" id="contrast" min="-100" max="100" step="5" value="0">
+                                        <span id="contrast-rst">Reset</span>
+                                    </div>
+                
+                                    <div class="element">
+                                            <i class="fa fa-sun"></i>
+                                            <label>Brightness</label>
+                                            <input name="brightness" id="brightness" type="range" min="-100" max="100" step="5" value="0">
+                                            <span id="brightness-rst">Reset</span>
                                     </div>
                 
                                     
                                     <div class="element">
-                                            <i class="fa fa-search-plus"></i>
-                                            <label>Zoom</label>
-                                            <input id="zoom" type="range" name="" id="" min="0" max="2">
-                                            <span>Reset</span>
+                                            <i class="fa fa-tint"></i>
+                                            <label>Saturation</label>
+                                            <input id="saturation" type="range" name="saturation" min="-100" max="100" step="5" value="0">
+                                            <span id="saturation-rst">Reset</span>
                                     </div>
-                
+
                                     <div class="element">
-                                        <i class="fa fa-adjust"></i>
-                                        <label>Contrast</label>
-                                        <input id="contrast" type="range" name="" id="" min="0" max="2">
-                                        <span>Reset</span>
-                                    </div>
-                
+                                        <i class="far fa-lightbulb"></i>
+                                        <label>Exposure</label>
+                                        <input id="exposure" type="range" name="exposure" min="-100" max="100" step="5" value="0">
+                                        <span id="exposure-rst">Reset</span>
+                                </div>
+
                                     <div class="element">
-                                            <i class="fa fa-sun-o"></i>
-                                            <label>Brightness</label>
-                                            <input name="brightness" id="brightness" type="range" min="-100" max="100" value="0">
-                                            <span>Reset</span>
+                                        <i class="fab fa-audible"></i>
+                                        <label>Blur</label>
+                                        <input id="blur" type="range" name="blur" min="0" max="100" step="1" value="0">
+                                        <span id="blur-rst">Reset</span>
                                     </div>
+
+                                    <div class="element">
+                                        <i class="fab fa-cloudsmith"></i>
+                                        <label>Noise</label>
+                                        <input id="noise" type="range" name="noise" min="0" max="100" step="1" value="0">
+                                        <span id="noise-rst">Reset</span>
+                                    </div>
+
+                                    <!-- shift the colors in an image in a uniform fashion -->
+                                    <div class="element">
+                                        <i class="fas fa-palette"></i>
+                                        <label>Hue</label>
+                                        <input id="hue" type="range" name="hue" min="0" max="100" step="3" value="0">
+                                        <span id="hue-rst">Reset</span>
+                                    </div>
+
+                                    <button id="resetEditBtn"class="settings button">Reset All</button>
+
                                 </div>
                             </div>
 
