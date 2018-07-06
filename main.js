@@ -3,7 +3,7 @@ $(document).ready(() => {
     const fadeTime = 300;
 
     //canvas element
-    let canvas,context;
+    let canvas = Caman("#canvas");
 
     //image element
     const image = $("#canvas");
@@ -22,6 +22,7 @@ $(document).ready(() => {
 
     //INIT FUNCTION
     resetAllSliders();
+    
 
     // Assign all panel animation to icon bar element
     $("#editBtn").click(function(){panelAnimation($(".basic-edits"),$(this))});
@@ -54,6 +55,34 @@ $(document).ready(() => {
 
         //update edit filters
         applyEditFilters();
+    });
+
+    //slide down panel rotate area
+    $("#rotate").click(function(){               
+       //on slide down
+       if($(this).css("border-bottom-color") != "rgb(46, 50, 56)"){
+            $(this).css('border-bottom-color', '#2e3238');
+       }
+       else{
+            $(this).css("border-bottom-color","rgb(160, 159, 159)");
+       }
+
+        //slide effect
+        $("#rotate-area").slideToggle();
+    });
+
+    //on click rotate button
+    $(".rotateBtn").click(function(){
+        let direction = $(this).attr('id').replace('rotate-','');
+
+        if(direction == "left"){
+            canvas.rotate(-90);
+            canvas.render();
+        }
+        else{
+            canvas.rotate(90);
+            canvas.render();
+        }
     });
 
     //on click on button reset of basic edits
@@ -138,7 +167,10 @@ $(document).ready(() => {
         const expo = parseInt($('#exposure').val());
 
         Caman('#canvas',function(){
+            //delete previous filter
             this.revert(false);
+
+            //re-apply filters
             this.brightness(brgt);
             this.contrast(ctrs);
             this.saturation(str);
@@ -146,7 +178,12 @@ $(document).ready(() => {
             this.noise(noise);
             this.stackBlur(blur);
             this.exposure(expo);
+            this.rotate(rotateDirection)
+
+            //rendering photo
             this.render();
+
+            //rotateDirection = 0;
         })
     }
 });

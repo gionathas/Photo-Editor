@@ -20,6 +20,25 @@
     margin: 20px auto;
 }
 
+#rotate-area{
+    display: none;
+    width: 60%;
+    margin: 0px auto;
+    /* background-color: red; */
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+#rotate-area button{
+    display: inline-block;
+    background-color: #1959a7;
+    margin-left: 15px;
+}
+
+#crop:hover,#rotate:hover{
+    background-color:#575a5f;
+}
+
 .element{
     padding: 25px;
     display: flex;
@@ -27,9 +46,6 @@
     align-items: center;
 }
 
-#crop:hover,#rotate:hover{
-    background-color:#575a5f;
-}
 
 .element:not(:last-child){
     border-bottom: 1px solid rgb(160, 159, 159);
