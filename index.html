@@ -27,7 +27,7 @@
             <!-- Navbar  -->
             <div class="icon-bar">
                 <a id="settingsBtn" class="" href="#"><i class="fa fa-cogs"></i> <span class="tooltip">Settings</span></a>
-                <a id="editBtn" class="active" href="#"><i class="fas fa-edit"></i><span class="tooltip">Basic Edit</span></a>
+                <a id="editBtn" class="active" href="#"><i class="fas fa-sliders-h"></i><span class="tooltip">Basic Edit</span></a>
                 <a id="filtersBtn" href="#"><i class="fa fa-magic"></i><span class="tooltip">Filters</span></a>
                 <a id="textBtn" href="#"><i class="fas fa-font"></i><span class="tooltip">Text</span></a>
                 <a id="paintBtn" href="#"><i class="fa fa-paint-brush"></i><span class="tooltip">Paint</span></a> 
@@ -35,9 +35,9 @@
 
             <!-- Stage with Canvas and Editor -->
             <div class="main-stage">
-
+                
+                 <!-- Canvas with Image -->
                 <img id="canvas" src="/home/gio/Scrivania/js/simpleImageFilter/img/moto.jpg" alt="">
-                <!-- Canvas with Image -->
     
                 <!-- Editor -->
                 <div class="editor">
@@ -62,12 +62,26 @@
                             <h2>Edit Photo</h2>
                             
                             <div class="edit-area">
+
+                                    <div id="resize" class="element slidepanel">
+                                        <i class="far fa-images"></i>
+                                        <p>Resize</p>
+                                     </div>
+
+                                     <div id="resize-area" class="slidepanel">
+                                        <input id="resize-width"type="text" placeholder="width">
+                                        <span>x</span>
+                                        <input id="resize-height"type="text" placeholder="height">
+                                        <button id="resize-submit">Apply</button>
+                                        <p id="resize-error">Invalid Values</p>
+                                     </div>
+
                                     <div id="crop" class="element">
                                         <i class="fa fa-crop-alt"></i>
                                         <p>Crop</p>
                                     </div>
                 
-                                    <div id="rotate" class="element">
+                                    <div id="rotate" class="element slidepanel">
                                         <i class="fa fa-sync"></i>
                                         <p>Rotate</p>
                                     </div>
@@ -128,7 +142,7 @@
                                         <span id="hue-rst">Reset</span>
                                     </div>
 
-                                    <button id="resetEditBtn"class="settings button">Reset All</button>
+                                    <button id="resetEditBtn" class="">Reset All</button>
 
                                 </div>
                             </div>

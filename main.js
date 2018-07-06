@@ -2,9 +2,6 @@ $(document).ready(() => {
     
     const fadeTime = 300;
 
-    //canvas element
-    let canvas = Caman("#canvas");
-
     //image element
     const image = $("#canvas");
 
@@ -22,7 +19,7 @@ $(document).ready(() => {
 
     //INIT FUNCTION
     resetAllSliders();
-    
+    resetTextInput();
 
     // Assign all panel animation to icon bar element
     $("#editBtn").click(function(){panelAnimation($(".basic-edits"),$(this))});
@@ -57,8 +54,8 @@ $(document).ready(() => {
         applyEditFilters();
     });
 
-    //slide down panel rotate area
-    $("#rotate").click(function(){               
+    //slide down some panel area(crop,resize,ecc..)
+    $(".slidepanel").click(function(){               
        //on slide down
        if($(this).css("border-bottom-color") != "rgb(46, 50, 56)"){
             $(this).css('border-bottom-color', '#2e3238');
@@ -67,8 +64,36 @@ $(document).ready(() => {
             $(this).css("border-bottom-color","rgb(160, 159, 159)");
        }
 
+       //get id of area of the panel to slide
+       let id_area = $(this).attr('id')+"-area";
+       
         //slide effect
-        $("#rotate-area").slideToggle();
+        $("#"+id_area).slideToggle();
+    });
+
+    //on click on resize button
+    $("#resize-submit").click(function(){
+        //get width and height value
+        const width = parseInt($("#resize-width").val());
+        const height = parseInt($("#resize-height").val());   
+        
+        if(isNaN(width) || isNaN(height) || width <= 0 || height <= 0){
+            $("#resize-error").show();
+        }
+        else{            
+            Caman("#canvas",function(){
+                this.resize({
+                    width: width,
+                    height: height
+                  });
+
+                this.render();
+                
+                //hide possible error
+                $("#resize-error").hide();
+            });
+        }
+        
     });
 
     //on click rotate button
@@ -76,12 +101,16 @@ $(document).ready(() => {
         let direction = $(this).attr('id').replace('rotate-','');
 
         if(direction == "left"){
-            canvas.rotate(-90);
-            canvas.render();
+            Caman("#canvas",function(){
+                this.rotate(-90);
+                this.render();
+            });
         }
         else{
-            canvas.rotate(90);
-            canvas.render();
+            Caman("#canvas",function(){
+                this.rotate(90);
+                this.render();
+            });
         }
     });
 
@@ -111,6 +140,12 @@ $(document).ready(() => {
         sliders.each(function(){
             $(this).val(0);
         });
+    }
+
+    function resetTextInput(){
+        $("input[type=text]").each(function(){
+            $(this).val("");
+        })
     }
 
     //panel and icon bar animation
@@ -151,8 +186,12 @@ $(document).ready(() => {
     
         reader.addEventListener("load",() => {
             //update image src, with the file readed
-            //img.src = reader.result;
             image.attr("src",reader.result);
+
+            //transform image into canvas
+            Caman("#canvas",function(){
+                this.revert(false);
+            });
         });
     }
 
@@ -166,7 +205,7 @@ $(document).ready(() => {
         const blur = parseInt($('#blur').val());
         const expo = parseInt($('#exposure').val());
 
-        Caman('#canvas',function(){
+        Caman('#canvas',function(){            
             //delete previous filter
             this.revert(false);
 
@@ -178,12 +217,9 @@ $(document).ready(() => {
             this.noise(noise);
             this.stackBlur(blur);
             this.exposure(expo);
-            this.rotate(rotateDirection)
 
             //rendering photo
             this.render();
-
-            //rotateDirection = 0;
         })
     }
 });

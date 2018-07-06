@@ -20,6 +20,38 @@
     margin: 20px auto;
 }
 
+#resize-area{
+    display: none;
+    width: 100%;
+    /* margin: 0px auto; */
+    padding: 10px;
+    text-align: center;
+    /* background-color: red; */
+}
+
+#resize-area input[type=text]{
+    display: inline-block;
+    width: 40%;
+    font-size: 22px;
+    border:none;
+    border-bottom: 1px solid gray;
+    padding: 10px;
+    margin: 10px;
+    background-color: #2e3238;
+    color: white;
+}
+
+#resize-area button{
+    background-color: green;
+    width: 30%;
+    margin: 10px auto;
+}
+
+#resize-area p{
+    display: none;
+    color:red;
+}
+
 #rotate-area{
     display: none;
     width: 60%;
@@ -35,7 +67,7 @@
     margin-left: 15px;
 }
 
-#crop:hover,#rotate:hover{
+#crop:hover,#rotate:hover, #resize:hover{
     background-color:#575a5f;
 }
 
