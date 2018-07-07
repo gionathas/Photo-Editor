@@ -17,6 +17,9 @@ $(document).ready(() => {
     //all sliders tools in basic edit
     const sliders = $('input[type=range]');
 
+    //current preset filter
+    let presetFilter = undefined;
+
     //INIT FUNCTION
     resetAllSliders();
     resetTextInput();
@@ -34,7 +37,7 @@ $(document).ready(() => {
     uploadBtn.change(() => uploadPhoto());
 
     //apply edit filter when a slider value change
-    sliders.on('change',applyEditFilters);
+    sliders.on('change',applyAllFilters);
 
     //on click on reset of edit tool element
     $(".element span").click(function(){
@@ -51,7 +54,7 @@ $(document).ready(() => {
         }
 
         //update edit filters
-        applyEditFilters();
+        applyAllFilters();
     });
 
     //slide down some panel area(crop,resize,ecc..)
@@ -117,7 +120,7 @@ $(document).ready(() => {
     //on click on button reset of basic edits
     $('#resetEditBtn').click(() =>{
         resetAllSliders();
-        applyEditFilters();
+        applyAllFilters();
     });
 
     //on click on save button 
@@ -142,6 +145,7 @@ $(document).ready(() => {
         });
     }
 
+    //set all text input to empty string
     function resetTextInput(){
         $("input[type=text]").each(function(){
             $(this).val("");
@@ -195,31 +199,58 @@ $(document).ready(() => {
         });
     }
 
+    //on click on preset filter
+    $('.filter-container').click(function(){
+        presetFilter = $(this).attr('id').replace('-filter','');
+        applyAllFilters();
 
-    function applyEditFilters(){
-        const brgt = parseInt($('#brightness').val());
-        const ctrs = parseInt($('#contrast').val());
-        const str = parseInt($('#saturation').val());
-        const hue =  parseInt($('#hue').val());
-        const noise = parseInt($('#noise').val());
-        const blur = parseInt($('#blur').val());
-        const expo = parseInt($('#exposure').val());
+        //show remove button
+        $('#filters-header-btn').css("visibility","visible");
+    });
 
-        Caman('#canvas',function(){            
-            //delete previous filter
-            this.revert(false);
+    //on click on remove preset filter
+    $('#filters-header-btn').click(function(){
+        presetFilter = undefined;
+        applyAllFilters();
 
-            //re-apply filters
-            this.brightness(brgt);
-            this.contrast(ctrs);
-            this.saturation(str);
-            this.hue(hue);
-            this.noise(noise);
-            this.stackBlur(blur);
-            this.exposure(expo);
+        //hide remove button
+        $('#filters-header-btn').css("visibility","hidden");
+    });
 
-            //rendering photo
-            this.render();
-        })
+    const editFilters = [
+        'brightness',
+        'contrast',
+        'saturation',
+        'hue',
+        'noise',
+        'stackBlur',
+        'exposure'
+    ];
+
+    function applyAllFilters(){
+        Caman('#canvas',function(){
+            let canvas = this;
+
+            canvas.revert(false);
+
+            //apply resetFilter
+            if(presetFilter){
+                canvas[presetFilter]();
+            }
+
+            //apply all edit filters
+            editFilters.forEach(function(filter){
+                let val = parseInt($('#'+filter).val());
+
+                if(val == 0){
+                    return;
+                }
+
+                canvas[filter](val); //apply filters
+                
+            });
+
+            canvas.render();
+        });
     }
 });

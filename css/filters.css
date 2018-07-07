@@ -9,9 +9,10 @@
     padding: 10px;
     position: absolute;
     margin-top: -8px;
-    right: 8%;
+    right: 2%;
     box-shadow: none;
     background-color: red;
+    visibility: hidden;
 }
 
 #filters-header-btn i{
@@ -19,16 +20,12 @@
 }
 
 .filters-gallery{
-    /* background-color: yellow; */
     width: 100%;
     padding: 5px;
-    height: 1000px;
 }
 
 .row-filters-container{
     width: 100%;
-    /* padding: 15px; */
-    /* border: 2px solid blue; */
     margin: 25px 0;
     overflow: auto;
 }
