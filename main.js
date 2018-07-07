@@ -2,14 +2,11 @@ $(document).ready(() => {
     
     const fadeTime = 300;
 
-    //image element
-    const image = $("#canvas");
-
     //buttons
     const uploadBtn = $("#file");
 
     //image element
-    let imageUploaded = false;
+    let imageUploaded = true;
 
     let activeEditor = $(".filters-panel");
     let activeIconBar = $("#filtersBtn");
@@ -21,6 +18,7 @@ $(document).ready(() => {
     let presetFilter = undefined;
 
     //INIT FUNCTION
+    Caman('#canvas');
     resetAllSliders();
     resetTextInput();
 
@@ -132,6 +130,33 @@ $(document).ready(() => {
         });
     });
 
+    //on click on preset filter
+    $('.filter-container').click(function(){
+        presetFilter = $(this).attr('id').replace('-filter','');
+        applyAllFilters();
+
+        //show remove button
+        $('#filters-header-btn').css("visibility","visible");
+    });
+
+    //on click on remove preset filter
+    $('#filters-header-btn').click(function(){
+        presetFilter = undefined;
+        applyAllFilters();
+
+        //hide remove button
+        $('#filters-header-btn').css("visibility","hidden");
+    });
+
+    //test
+    $('#textBtn').click(function(){
+        let canvas = document.getElementById('canvas');
+        let context = canvas.getContext('2d');
+        
+       context.fillRect(canvas.width/2,canvas.height/2,200,200);
+        
+    })
+
     //On canvas click update photo
     //canvas.click(uploadPhoto();
 
@@ -189,33 +214,20 @@ $(document).ready(() => {
         }
     
         reader.addEventListener("load",() => {
-            //update image src, with the file readed
-            image.attr("src",reader.result);
 
-            //transform image into canvas
-            Caman("#canvas",function(){
-                this.revert(false);
-            });
+            if(!imageUploaded){
+                imageUploaded = true;
+            }else{
+                $('#canvas').replaceWith('<img id="canvas" src="" alt="">');
+            }
+
+            //update image src, with the file readed
+            $("#canvas").attr("src",reader.result);
+
+            Caman("#canvas");
         });
     }
 
-    //on click on preset filter
-    $('.filter-container').click(function(){
-        presetFilter = $(this).attr('id').replace('-filter','');
-        applyAllFilters();
-
-        //show remove button
-        $('#filters-header-btn').css("visibility","visible");
-    });
-
-    //on click on remove preset filter
-    $('#filters-header-btn').click(function(){
-        presetFilter = undefined;
-        applyAllFilters();
-
-        //hide remove button
-        $('#filters-header-btn').css("visibility","hidden");
-    });
 
     const editFilters = [
         'brightness',
