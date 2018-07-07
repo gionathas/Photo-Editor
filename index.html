@@ -10,6 +10,9 @@
         <link rel="stylesheet" href="css/icon-bar.css">
         <link rel="stylesheet" href="css/settings-style.css">
         <link rel="stylesheet" href="css/basic-edits-style.css">
+        <link rel="stylesheet" href="css/filters.css">
+
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
 
         <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
@@ -27,10 +30,10 @@
             <!-- Navbar  -->
             <div class="icon-bar">
                 <a id="settingsBtn" class="" href="#"><i class="fa fa-cogs"></i> <span class="tooltip">Settings</span></a>
-                <a id="editBtn" class="active" href="#"><i class="fas fa-sliders-h"></i><span class="tooltip">Basic Edit</span></a>
-                <a id="filtersBtn" href="#"><i class="fa fa-magic"></i><span class="tooltip">Filters</span></a>
-                <a id="textBtn" href="#"><i class="fas fa-font"></i><span class="tooltip">Text</span></a>
-                <a id="paintBtn" href="#"><i class="fa fa-paint-brush"></i><span class="tooltip">Paint</span></a> 
+                <a id="editBtn" class="" href="#"><i class="fas fa-sliders-h"></i><span class="tooltip">Basic Edit</span></a>
+                <a id="filtersBtn" class="active" href="#"><i class="fa fa-magic"></i><span class="tooltip">Filters</span></a>
+                <a id="textBtn" class="" href="#"><i class="fas fa-font"></i><span class="tooltip">Text</span></a>
+                <a id="paintBtn" class="" href="#"><i class="fa fa-paint-brush"></i><span class="tooltip">Paint</span></a> 
             </div>
 
             <!-- Stage with Canvas and Editor -->
@@ -44,7 +47,7 @@
 
                         <!-- SETTINGS PANEL -->
                         <div class="settings" style="display: none;">
-                            <h2>Settings</h2>
+                            <h2 class="panel-header">Settings</h2>
 
                             <div class="button-area">
                                 <!-- <input id="uploadBtn" type="file"><i class="fa fa-upload"></i> Upload Photo</button> -->
@@ -57,9 +60,9 @@
                         </div>
                         
                         <!-- BASIC EDIT PANEL -->
-                        <div class="basic-edits">
+                        <div class="basic-edits" style="display: none;">
 
-                            <h2>Edit Photo</h2>
+                            <h2 class="panel-header">Edit Photo</h2>
                             
                             <div class="edit-area">
 
@@ -145,6 +148,42 @@
                                     <button id="resetEditBtn" class="">Reset All</button>
 
                                 </div>
+                            </div>
+
+                            <!-- FILTERS PANEL -->
+                            <div class="filters-panel">
+
+                                <div class="panel-header">
+                                    <h2 id="filters-header-text">Filters</h2>
+                                    <button id="filters-header-btn"><i class="fas fa-backspace"></i></button>
+                                </div>
+
+                                <div class="filters-gallery">
+
+                                    <div class="row-filters-container">
+                                        <div id="pinhole-filter" class="filter-container">
+                                            <img src="/home/gio/Scrivania/js/simpleImageFilter/img/preset/pinhole.png" alt="">
+                                            <p class="filter-title">Pinhole</p>
+                                        </div>
+
+                                        <div id="clarity-filter" class="filter-container">
+                                                <img src="/home/gio/Scrivania/js/simpleImageFilter/img/preset/pinhole.png" alt="">
+                                                <p class="filter-title">Clarity</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-filters-container">
+                                            <div class="filter-container"></div>
+                                            <div class="filter-container"></div>
+                                    </div>
+
+                                    <div class="row-filters-container">
+                                            <div class="filter-container"></div>
+                                            <div class="filter-container"></div>
+                                    </div>
+
+                                </div>
+
                             </div>
 
                             

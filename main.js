@@ -11,8 +11,8 @@ $(document).ready(() => {
     //image element
     let imageUploaded = false;
 
-    let activeEditor = $(".basic-edits");
-    let activeIconBar = $("#editBtn");
+    let activeEditor = $(".filters-panel");
+    let activeIconBar = $("#filtersBtn");
 
     //all sliders tools in basic edit
     const sliders = $('input[type=range]');
@@ -24,7 +24,7 @@ $(document).ready(() => {
     // Assign all panel animation to icon bar element
     $("#editBtn").click(function(){panelAnimation($(".basic-edits"),$(this))});
     $("#settingsBtn").click(function(){panelAnimation($(".settings"),$(this))});
-    // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
+    $("#filtersBtn").click(() => panelAnimation($(".filters-panel"),$(this)));
     // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
     // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
     // $("#editBtn").click(() => panelAnimation($(".basic-edits")));

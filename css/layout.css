@@ -55,3 +55,12 @@ header{
     height: 700px;
     overflow: auto;
 }
+
+.panel-header{
+    text-align: center;
+    background-color: #282c31;
+    border-radius: 15px;
+    font-size: 26px;
+    padding: 20px 0px;
+    position: relative;
+}

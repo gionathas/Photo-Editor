@@ -1,11 +1,4 @@
 /* SETTINGS STYLE */
-.settings h2{
-    text-align: center;
-    background-color: #282c31;
-    padding: 20px 0px;
-    border-radius: 2px;
-    font-size: 26px;
-}
 
 /* Hide input element */
 .inputfile {
