@@ -19,7 +19,7 @@ header{
 
 .container{
     width: 80%;
-    margin: auto;
+    margin: 3% auto;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;

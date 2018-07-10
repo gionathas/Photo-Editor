@@ -11,8 +11,10 @@
         <link rel="stylesheet" href="css/settings-style.css">
         <link rel="stylesheet" href="css/basic-edits-style.css">
         <link rel="stylesheet" href="css/filters.css">
+        <link rel="stylesheet" href="css/manual-area.css">
 
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.0/cropper.css">
 
         <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
@@ -28,12 +30,46 @@
         <div class="container">
             
             <!-- Navbar  -->
-            <div class="icon-bar">
+            <div class="icon-bar" style="">
                 <a id="settingsBtn" class="" href="#"><i class="fa fa-cogs"></i> <span class="tooltip">Settings</span></a>
-                <a id="editBtn" class="" href="#"><i class="fas fa-sliders-h"></i><span class="tooltip">Basic Edit</span></a>
-                <a id="filtersBtn" class="active" href="#"><i class="fa fa-magic"></i><span class="tooltip">Filters</span></a>
+                <a id="editBtn" class="active" href="#"><i class="fas fa-sliders-h"></i><span class="tooltip">Basic Edit</span></a>
+                <a id="toolsBtn" class="" href="#"><i class="fas fa-wrench"></i><span class="tooltip">Manual Tools</span></a>
+                <a id="filtersBtn" class="" href="#"><i class="fa fa-magic"></i><span class="tooltip">Filters</span></a>
                 <a id="textBtn" class="" href="#"><i class="fas fa-font"></i><span class="tooltip">Text</span></a>
                 <a id="paintBtn" class="" href="#"><i class="fa fa-paint-brush"></i><span class="tooltip">Paint</span></a> 
+            </div>
+
+            <!-- Tools Area on Manual Mode -->
+            <div class="manual-tools-area" style="display: none;">
+
+                <div class="group ">
+                    <button id="move"><i class="fas fa-arrows-alt"></i></button>
+                    <button id="crop"><i class="fas fa-crop-alt"></i></button>
+                </div>
+
+                <div class="group ">
+                    <button id="zoomIn"><i class="fas fa-search-plus"></i></button>
+                    <button id="zoomOut"><i class="fas fa-search-minus"></i></button>
+                </div>
+
+                <div class="group ">
+                    <button id="arrow-up"><i class="fas fa-arrow-up"></i></button>
+                    <button id="arrow-down"><i class="fas fa-arrow-down"></i></button>
+                    <button id="arrow-left"><i class="fas fa-arrow-left"></i></button>
+                    <button id="arrow-right"><i class="fas fa-arrow-right"></i></button>
+                </div>
+
+                <div class="group ">
+                    <button id="rotate-left"><i class="fas fa-undo"></i></button>
+                    <button id="rotate-right"><i class="fas fa-redo"></i></button>
+                </div>
+
+                <div class="group ">
+                    <button id="apply-manual"><i class="fas fa-check-circle"></i></button>
+                    <button id="exit-manual"><i class="fas fa-times-circle"></i></button>
+                    <button id="reset-manual"><i class="fas fa-sync"></i></button>
+                </div>
+                
             </div>
 
             <!-- Stage with Canvas and Editor -->
@@ -60,7 +96,7 @@
                         </div>
                         
                         <!-- BASIC EDIT PANEL -->
-                        <div class="basic-edits" style="display: none;">
+                        <div class="basic-edits" style="">
 
                             <h2 class="panel-header">Edit Photo</h2>
                             
@@ -78,22 +114,7 @@
                                         <button id="resize-submit">Apply</button>
                                         <p id="resize-error">Invalid Values</p>
                                      </div>
-
-                                    <div id="crop" class="element">
-                                        <i class="fa fa-crop-alt"></i>
-                                        <p>Crop</p>
-                                    </div>
                 
-                                    <div id="rotate" class="element slidepanel">
-                                        <i class="fa fa-sync"></i>
-                                        <p>Rotate</p>
-                                    </div>
-
-                                    <div id="rotate-area">
-                                        <button class="rotateBtn" id="rotate-left"><i class="fas fa-undo"></i></button>
-                                        <button class="rotateBtn" id="rotate-right"><i class="fas fa-redo"></i></button>
-                                    </div>
-
                                     <div class="element">
                                         <i class="fa fa-adjust"></i>
                                         <label>Contrast</label>
@@ -151,11 +172,11 @@
                             </div>
 
                             <!-- FILTERS PANEL -->
-                            <div class="filters-panel">
+                            <div class="filters-panel" style="display: none;">
 
                                 <div class="panel-header">
                                     <h2 id="filters-header-text">Filters</h2>
-                                    <button id="filters-header-btn"><i class="fas fa-backspace"></i></button>
+                                    <button id="filters-header-btn"><i class="fas fa-times-circle"></i></button>
                                 </div>
 
                                 <div class="filters-gallery">
@@ -257,6 +278,8 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.js"></script>
-        <script src="main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.0/cropper.js"></script>
+        <script src="js/draw.js"></script>
+        <script src="js/main.js"></script>
     </body>
 </html>
