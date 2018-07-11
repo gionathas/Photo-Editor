@@ -47,7 +47,7 @@ button:hover, .settings .inputfile + label{
 }
 
 .button-area{
-    padding-top: 9%;
+    padding-top: 10%;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;

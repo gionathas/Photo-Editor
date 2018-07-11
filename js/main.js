@@ -1,13 +1,13 @@
 $(document).ready(() => {
     
     const fadeTime = 300;
-    let imageSrc = undefined;
 
     //buttons
     const uploadBtn = $("#file");
 
-    //image element
+    //image element, default value
     let imageUploaded = true;
+    let imageSrc = 'img/moto.jpg';
 
     let activeEditor = $(".basic-edits");
     let activeIconBar = $("#editBtn");
@@ -134,6 +134,24 @@ $(document).ready(() => {
         $('#filters-header-btn').css("visibility","hidden");
     });
 
+    $('#paintBtn').click(function(){
+        let canvas = document.getElementById('canvas');
+        let context = canvas.getContext('2d');        
+
+        Caman('#canvas',function(){
+            this.newLayer(function () {
+                // ... or we can copy the contents of the parent
+                // layer to this one.
+                this.copyParent();
+
+                context.clearRect(100,100,100,100);
+        
+              });
+
+              //this.render();
+        })
+    })
+
     // MANUAL TOOLS 
 
     //on click on tools icon bar button
@@ -254,6 +272,22 @@ $(document).ready(() => {
     //on click on reset tool button
     $('#reset-manual').click(function(){
         cropper.reset();
+    });
+
+    //SETTINGS AREA
+
+    //on click on save photo TODO
+
+    //on click on reset photo
+    $('#resetBtn').click(function(){
+        $('#canvas').replaceWith('<img id="canvas" src="" alt="">');
+
+        //update image src, with the file readed
+        $("#canvas").attr("src",imageSrc);
+
+        //create canvas from image uploaded
+        Caman("#canvas");
+
     });
 
     //On canvas click update photo
