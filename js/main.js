@@ -8,6 +8,7 @@ $(document).ready(() => {
     //image element, default value
     let imageUploaded = true;
     let imageSrc = 'img/moto.jpg';
+    let filename = 'img/moto.jpg';
 
     let activeEditor = $(".basic-edits");
     let activeIconBar = $("#editBtn");
@@ -107,15 +108,6 @@ $(document).ready(() => {
         applyAllFilters();
     });
 
-    //on click on save button 
-    $("#saveBtn").click(() =>{
-        Caman('#canvas',function(){
-            this.render(function(){
-                this.save('image.png');
-            });
-        });
-    });
-
     //on click on preset filter
     $('.filter-container').click(function(){
         presetFilter = $(this).attr('id').replace('-filter','');
@@ -138,17 +130,9 @@ $(document).ready(() => {
         let canvas = document.getElementById('canvas');
         let context = canvas.getContext('2d');        
 
-        Caman('#canvas',function(){
-            this.newLayer(function () {
-                // ... or we can copy the contents of the parent
-                // layer to this one.
-                this.copyParent();
-
-                context.clearRect(100,100,100,100);
-        
-              });
-
-              //this.render();
+        canvas.addEventListener('mousemove',function(evt){
+            console.log(getMousePosition(canvas,evt));
+            
         })
     })
 
@@ -290,11 +274,48 @@ $(document).ready(() => {
 
     });
 
+    //on click on save photo
+    $('#saveBtn').click(function(){
+        const fileExtension = filename.slice(-4);
+
+        let newFileName;
+
+        if(fileExtension === '.jpg' || fileExtension === '.png')
+        {  
+            newFileName = filename.substring(0,filename.length - 4)+ '-edited.jpg';
+        }
+
+        //console.log(newFileName);
+        
+        donwloadPhoto(newFileName);
+    });
+
     //On canvas click update photo
     //canvas.click(uploadPhoto();
 
     
     //******* FUNCTIONS **************
+
+    function donwloadPhoto(filename)
+    {
+        let canvas = $('#canvas')[0];
+
+        //create a link for download
+        const link = document.createElement('a');
+
+        link.download = filename;
+        link.href = canvas.toDataURL('image/jpeg');
+
+        //make a click on link created
+        let e = new MouseEvent('click');
+        link.dispatchEvent(e);
+    }
+
+    function getMousePosition(canvas,evt)
+    {
+        const rect = canvas.getBoundingClientRect();
+        return { x: evt.clientX - rect.left,y: evt.clientY - rect.top,left: rect.left,top:rect.top };
+    }
 
     //change button color of move and crop tools button
     function changeButtonColor(toolsBtn)
