@@ -22,19 +22,17 @@ $(document).ready(() => {
     //crop object
     let cropper = undefined;
 
+    let canvasMode = 'caman';
+
     //INIT FUNCTION
     Caman('#canvas'); //create canvas from image
     resetAllSliders();
     resetTextInput();
 
     // Assign all panel animation to icon bar element
-    $("#editBtn").click(function(){panelAnimation($(".basic-edits"),$(this))});
-    $("#settingsBtn").click(function(){panelAnimation($(".settings"),$(this))});
-    $("#filtersBtn").click(() => panelAnimation($(".filters-panel"),$(this)));
-    // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
-    // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
-    // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
-    // $("#editBtn").click(() => panelAnimation($(".basic-edits")));
+    $("#editBtn").click(() => {toCamanCanvas();panelAnimation($(".basic-edits"),$(this))});
+    $("#settingsBtn").click(() => {toCamanCanvas();panelAnimation($(".settings"),$(this))});
+    $("#filtersBtn").click(() => {toCamanCanvas();panelAnimation($(".filters-panel"),$(this))});
 
     //on click on Choose Photo Button
     uploadBtn.change(() => uploadPhoto());
@@ -128,15 +126,24 @@ $(document).ready(() => {
 
     $('#paintBtn').click(function(){
         let canvas = document.getElementById('canvas');
-        let context = canvas.getContext('2d');        
+
+        toNormalCanvas(canvas);
+
+        let context = canvas.getContext('2d');
 
         canvas.addEventListener('mousemove',function(evt){
             console.log(getMousePosition(canvas,evt));
-            
+        })
+
+        canvas.addEventListener('click',function(evt){
+            let mouse = getMousePosition(canvas,evt);
+
+            context.fillStyle = 'rgb(0,0,255)';
+            context.fillRect(mouse.x,mouse.y,100,100);
         })
     })
 
-    // MANUAL TOOLS 
+    // *********MANUAL TOOLS ************ 
 
     //on click on tools icon bar button
     $("#toolsBtn").click(function(){
@@ -146,7 +153,7 @@ $(document).ready(() => {
             $('.icon-bar').hide('fast',function(){
                 
                 //display tools buttons
-                $(".manual-tools-area").fadeIn('slow');
+                $(".manual-tools-area").fadeIn();
 
                 let canvas = document.getElementById('canvas');
 
@@ -296,6 +303,65 @@ $(document).ready(() => {
     
     //******* FUNCTIONS **************
 
+    function toNormalCanvas(canvas)
+    {
+        if(canvasMode == 'caman')
+        {
+            console.log("normal");
+            
+            //update canvas mode
+            canvasMode = 'normal';
+
+            //get current image on canvas
+            let imageURL = canvas.toDataURL();
+            //modified some canvas parameter
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;  
+            
+            //get context
+            let context = canvas.getContext('2d');
+
+            //create an image with the content inside the canvas
+            let img = new Image();
+            img.src = imageURL;
+
+            //center the image on canvas when is loaded
+            img.onload = function(){
+                let hRatio = canvas.width  / img.width    ;
+                let vRatio =  canvas.height / img.height  ;
+                let ratio  = Math.min ( hRatio, vRatio );
+                let centerShift_x = ( canvas.width - img.width*ratio ) / 2;
+                let centerShift_y = ( canvas.height - img.height*ratio ) / 2;  
+                context.drawImage(img, 0,0, img.width, img.height,
+                                    centerShift_x,centerShift_y,img.width*ratio, img.height*ratio);
+            }
+        }   
+    }
+
+    function toCamanCanvas()
+    {            
+        if(canvasMode == 'normal')
+        {
+            let canvas = $('#canvas')[0];
+            console.log("caman");
+
+             //update canvas mode
+            canvasMode = 'caman';
+
+            let imageURL = canvas.toDataURL();
+
+            $("#myEl").off();
+
+            $('#canvas').replaceWith('<img id="canvas" src="" alt="">');
+
+            //update image src, with the file readed
+            $("#canvas").attr("src",imageURL);
+
+            //create canvas from image uploaded
+            Caman("#canvas");
+        }   
+    }
+
     function donwloadPhoto(filename)
     {
         let canvas = $('#canvas')[0];
@@ -314,7 +380,7 @@ $(document).ready(() => {
     function getMousePosition(canvas,evt)
     {
         const rect = canvas.getBoundingClientRect();
-        return { x: evt.clientX - rect.left,y: evt.clientY - rect.top,left: rect.left,top:rect.top };
+        return { x: evt.clientX - rect.left,y: evt.clientY - rect.top};
     }
 
     //change button color of move and crop tools button
@@ -335,6 +401,9 @@ $(document).ready(() => {
 
         $('.editor').fadeIn();
         activeEditor.fadeIn();
+
+        //revert canvas to caman mode
+        Caman('#canvas');
     }
     
 
@@ -354,7 +423,6 @@ $(document).ready(() => {
 
     //panel and icon bar animation
     function panelAnimation(newEditor,newIconBar){
-
         //hide old editor
         activeEditor.fadeOut(fadeTime,() => {
             //when animation finished...

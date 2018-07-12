@@ -1,5 +1,5 @@
 .manual-tools-area{
-    width: 50%;
+    width: 56%;
     margin: auto;
     padding: 5px;
     background-color: rgb(61, 61, 59);
@@ -10,7 +10,7 @@
     display: inline-block;
     /* border: 1px solid black; */
     width: auto;
-    padding: 0px 11px;
+    padding: 0px 20px;
 }
 
 .manual-tools-area button{
