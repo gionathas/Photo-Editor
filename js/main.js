@@ -10,8 +10,8 @@ $(document).ready(() => {
     let imageSrc = 'img/moto.jpg';
     let filename = 'img/moto.jpg';
 
-    let activeEditor = $(".basic-edits");
-    let activeIconBar = $("#editBtn");
+    let activeEditor = $(".paintArea");
+    let activeIconBar = $("#paintBtn");
 
     //all sliders tools in basic edit
     const sliders = $('input[type=range]');
@@ -21,6 +21,7 @@ $(document).ready(() => {
 
     //crop object
     let cropper = undefined;
+    let paint = undefined;
 
     let canvasMode = 'caman';
 
@@ -34,8 +35,96 @@ $(document).ready(() => {
     $("#settingsBtn").click(() => {toCamanCanvas();panelAnimation($(".settings"),$(this))});
     $("#filtersBtn").click(() => {toCamanCanvas();panelAnimation($(".filters-panel"),$(this))});
 
+    //*** PAINT AREA */
+
+    //paint function
+    $('#paintBtn').click(function(){
+        //panel animation
+        panelAnimation($(".paintArea"),$(this));
+
+        let canvas = document.getElementById('canvas');
+
+        //switch to nromal canvas
+        canvasMode = 'normal';        
+
+        //get current image on canvas
+        let imageURL = canvas.toDataURL();
+
+        //modified some canvas parameter
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight; 
+
+        paint = new Paint(canvas,imageURL);
+
+        paint.start();
+    })
+
+    //on click on paint clear
+    $('#paint-clear').click(function(){
+        if(paint){
+            paint.clear();
+        }
+    });
+
+    //on click on paint eraser
+    $('#paint-eraser').click(function(){
+        if(paint){
+            paint.setTool('eraser');
+        }
+    })
+
+    //on click on size of painting
+    $('.paint-size').click(function(){
+
+        if(paint){
+            let size = $(this).attr('id').replace('paint-','');
+
+            if(size == 'small'){
+                paint.setSize('4');
+            }
+            else if(size == 'medium'){
+                paint.setSize('12');
+            }
+            else if(size == 'normal'){
+                paint.setSize('18');
+            }
+            else if(size == 'large'){
+                paint.setSize('23');
+            }
+            else if(size == 'huge'){
+                paint.setSize('30');
+            }
+        }
+        
+    })
+
+    //set color picker object
+    $("#colorpicker").spectrum({
+        showPaletteOnly: true,
+        color: '#0000FF',
+        palette: [
+            ["#000","#444","#666","#999","#ccc","#eee","#f3f3f3","#fff"],
+            ["#f00","#f90","#ff0","#0f0","#0ff","#00f","#90f","#f0f"],
+            ["#f4cccc","#fce5cd","#fff2cc","#d9ead3","#d0e0e3","#cfe2f3","#d9d2e9","#ead1dc"],
+            ["#ea9999","#f9cb9c","#ffe599","#b6d7a8","#a2c4c9","#9fc5e8","#b4a7d6","#d5a6bd"],
+            ["#e06666","#f6b26b","#ffd966","#93c47d","#76a5af","#6fa8dc","#8e7cc3","#c27ba0"],
+            ["#c00","#e69138","#f1c232","#6aa84f","#45818e","#3d85c6","#674ea7","#a64d79"],
+            ["#900","#b45f06","#bf9000","#38761d","#134f5c","#0b5394","#351c75","#741b47"],
+            ["#600","#783f04","#7f6000","#274e13","#0c343d","#073763","#20124d","#4c1130"]
+        ]
+    });
+
+    //on change color on color picker
+    $("#colorpicker").change(function(){
+        if(paint){
+            paint.setColor($(this).val());
+        }
+    })
+
     //on click on Choose Photo Button
     uploadBtn.change(() => uploadPhoto());
+
+    // ********* EDIT AREA
 
     //apply edit filter when a slider value change
     sliders.on('change',applyAllFilters);
@@ -123,25 +212,6 @@ $(document).ready(() => {
         //hide remove button
         $('#filters-header-btn').css("visibility","hidden");
     });
-
-    $('#paintBtn').click(function(){
-        let canvas = document.getElementById('canvas');
-
-        toNormalCanvas(canvas);
-
-        let context = canvas.getContext('2d');
-
-        canvas.addEventListener('mousemove',function(evt){
-            console.log(getMousePosition(canvas,evt));
-        })
-
-        canvas.addEventListener('click',function(evt){
-            let mouse = getMousePosition(canvas,evt);
-
-            context.fillStyle = 'rgb(0,0,255)';
-            context.fillRect(mouse.x,mouse.y,100,100);
-        })
-    })
 
     // *********MANUAL TOOLS ************ 
 
@@ -267,8 +337,6 @@ $(document).ready(() => {
 
     //SETTINGS AREA
 
-    //on click on save photo TODO
-
     //on click on reset photo
     $('#resetBtn').click(function(){
         $('#canvas').replaceWith('<img id="canvas" src="" alt="">');
@@ -312,9 +380,10 @@ $(document).ready(() => {
             //update canvas mode
             canvasMode = 'normal';
 
-            //get current image on canvas
+            // //get current image on canvas
             let imageURL = canvas.toDataURL();
-            //modified some canvas parameter
+
+            // //modified some canvas parameter
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;  
             
@@ -350,7 +419,8 @@ $(document).ready(() => {
 
             let imageURL = canvas.toDataURL();
 
-            $("#myEl").off();
+            //remove all listener
+            $("#canvas").off();
 
             $('#canvas').replaceWith('<img id="canvas" src="" alt="">');
 
@@ -375,12 +445,6 @@ $(document).ready(() => {
         //make a click on link created
         let e = new MouseEvent('click');
         link.dispatchEvent(e);
-    }
-
-    function getMousePosition(canvas,evt)
-    {
-        const rect = canvas.getBoundingClientRect();
-        return { x: evt.clientX - rect.left,y: evt.clientY - rect.top};
     }
 
     //change button color of move and crop tools button
@@ -489,6 +553,7 @@ $(document).ready(() => {
 
     function applyAllFilters(){
         Caman('#canvas',function(){
+            ready =false;
             let canvas = this;
 
             canvas.revert(false);
