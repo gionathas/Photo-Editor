@@ -10,22 +10,60 @@ function Paint(canvas,backgroundImage)
     let img = new Image();
     img.src = backgroundImage;
 
-    let color = 'rgb(0,0,255)';
-    let size = 10;
+    //brush elements
+    let brushColor = 'rgb(0,0,255)';
+    let brushSize = 10;
 
     let paintPoints = new Array();
-    let tool = 'pen';
 
-    this.setColor = function(newColor){
-        color = newColor;
+    //text elements
+    let text = '';
+    let textColor = 'rgb(0,0,255)';
+    let textSize = '20pt';
+    let textFont = 'Calibri';
+    let textWidth = 150;
+    let textHeight = 150;
+    let strokeText = false;
+    let fillText = true;
+
+    this.setTextColor = function(newColor){
+        textColor = newColor;
     }
 
-    this.setSize = function(newSize){
-        size = newSize;
+    this.setText = function(newText){
+        text = newText;
     }
 
-    this.setTool = function(newTool){
-        tool = newTool;
+    this.setTextSize = function(newSize){
+        textSize = newSize;
+    }
+
+    this.setTextFont = function(newFont){
+        textFont = newFont;
+    }
+
+    this.setTextHeight = function(newHeight){
+        textHeight = newHeight;
+    }
+
+    this.setTextWidth = function(newWidth){
+        textWidth = newWidth;
+    }
+
+    this.setFillText = function(newFillText){
+        fillText = newFillText;
+    }
+
+    this.setStrokeText = function(newStroke){
+        strokeText = newStroke;
+    }
+
+    this.setBrushColor = function(newbrushColor){
+        brushColor = newbrushColor;
+    }
+
+    this.setBrushSize = function(newbrushSize){
+        brushSize = newbrushSize;
     }
 
     this.clear = function(){
@@ -34,21 +72,16 @@ function Paint(canvas,backgroundImage)
     }
 
     this.start = function(){
-        this.color = 'rgb(0,0,255)';
-        this.size = 10;
+        this.brushColor = 'rgb(0,0,255)';
+        this.brushSize = 10;
         //on mouse down
         this.canvas.addEventListener('mousedown',function(evt){
             let mousePosition = getMousePosition(canvas,evt);
 
             paint = true;
-
-            if(tool == 'pen'){   
-                addPoint(mousePosition,false,color,size);
-            }
-            //eraser
-            else{
-                removePoints(mousePosition);
-            }
+            
+            addPoint(mousePosition,false,brushColor,brushSize);
+            
             draw();
         })
 
@@ -56,15 +89,9 @@ function Paint(canvas,backgroundImage)
         this.canvas.addEventListener('mousemove',function(evt){
             if(paint){
 
-                if(tool == 'pen'){
-                    addPoint(getMousePosition(canvas,evt),true,color,size);
-                }
-                //eraser
-                else{
-                    removePoints(getMousePosition(canvas,evt));
-                }
-
-                draw();
+            addPoint(getMousePosition(canvas,evt),true,brushColor,brushSize);
+                
+            draw();
             }
         })
 
@@ -91,24 +118,11 @@ function Paint(canvas,backgroundImage)
     }
 
     //add a new point to draw
-    function addPoint(point,dragging,color,size){
-        let newPoint = new PaintPoint(point.x,point.y,dragging,color,size)
+    function addPoint(point,dragging,brushColor,brushSize){
+        let newPoint = new PaintPoint(point.x,point.y,dragging,brushColor,brushSize)
         paintPoints.push(newPoint);
     }
 
-    function removePoints(point){
-        paintPoints.filter(function(PaintPoint){
-            return !isNearPoint(point,PaintPoint);
-        })
-    }
-
-    function isNearPoint(point1,point2){
-        if(Math.abs(point1.x - point2.x) < size && Math.abs(point1.y - point2.y) < size){
-            return true;
-        }else{
-            return false;
-        }
-    }
 
     function draw(){        
         
@@ -136,20 +150,20 @@ function Paint(canvas,backgroundImage)
 
             context.lineTo(paintPoints[i].x, paintPoints[i].y);
             context.closePath();
-            context.strokeStyle = paintPoints[i].color;
-            context.lineWidth = paintPoints[i].size;
+            context.strokeStyle = paintPoints[i].brushColor;
+            context.lineWidth = paintPoints[i].brushSize;
             context.stroke();
         }
     }
 }
 
-function PaintPoint(x,y,drag,color,size)
+function PaintPoint(x,y,drag,brushColor,brushSize)
 {
     this.x = x;
     this.y = y;
     this.drag = drag;
-    this.color = color;
-    this.size = size;
+    this.brushColor = brushColor;
+    this.brushSize = brushSize;
 }
 
 function getMousePosition(canvas,evt)

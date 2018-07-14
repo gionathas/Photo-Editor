@@ -73,16 +73,8 @@ $(document).ready(() => {
         document.getElementById('settingsBtn').dispatchEvent(e);
     })
 
-    //on click on paint eraser
-    $('#paint-eraser').click(function(){
-        if(paint){
-            paint.setTool('eraser');
-        }
-    })
-
     //on click on size of painting
     $('.paint-size').click(function(){
-
         if(paint){
             let size = $(this).attr('id').replace('paint-','');
 
@@ -106,7 +98,7 @@ $(document).ready(() => {
     })
 
     //set color picker object
-    $("#colorpicker").spectrum({
+    $(".colorpicker").spectrum({
         showPaletteOnly: true,
         color: '#0000FF',
         palette: [
@@ -122,9 +114,17 @@ $(document).ready(() => {
     });
 
     //on change color on color picker
-    $("#colorpicker").change(function(){
+    $(".colorpicker").change(function(){
         if(paint){
-            paint.setColor($(this).val());
+            let type = $(this).attr('id').replace('-color','');
+            let color = $(this).val();
+
+            if(type == 'brush'){
+                paint.setBrushColor(color);
+            }
+            else{
+                paint.setTextColor(color)
+            }
         }
     })
 

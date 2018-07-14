@@ -37,8 +37,7 @@
                 <a id="editBtn" class="" href="#"><i class="fas fa-sliders-h"></i><span class="tooltip">Basic Edit</span></a>
                 <a id="toolsBtn" class="" href="#"><i class="fas fa-wrench"></i><span class="tooltip">Manual Tools</span></a>
                 <a id="filtersBtn" class="" href="#"><i class="fa fa-magic"></i><span class="tooltip">Filters</span></a>
-                <a id="textBtn" class="" href="#"><i class="fas fa-font"></i><span class="tooltip">Text</span></a>
-                <a id="paintBtn" class="active" href="#"><i class="fa fa-paint-brush"></i><span class="tooltip">Paint</span></a> 
+                <a id="paintBtn" class="active" href="#"><i class="fas fa-palette"></i><span class="tooltip">Paint / Text</span></a> 
             </div>
 
             <!-- Tools Area on Manual Mode -->
@@ -269,8 +268,9 @@
                             <h2 class="panel-header">Paint Tools</h2>
 
                             <div class="paint-tools">
+                                <h3> Brush</h3>
                                 <p>Brush Color:</p>
-                                <input id="colorpicker" style="width: 100%;">
+                                <input class="colorpicker" id="brush-color" style="width: 100%;">
                                 <br>
 
                                 <p>Brush Size:</p>
@@ -280,8 +280,38 @@
                                 <i id="paint-large" class="paint-size fas fa-circle"></i>
                                 <i id="paint-huge" class="paint-size fas fa-circle"></i>
 
-                                <button id="paint-eraser" style="display: none;">Eraser</button>
+                                <hr style="margin:10px 0;">
 
+                                <h3>Text</h3>
+
+                                <input type="text" id="paint-text" placeholder="Insert text here"> <br>
+
+                                <p>Text Width:</p> 
+                                    <select name="" id="">
+                                        <option value="small">Small</option>
+                                        <option value="normal">Normal</option>
+                                        <option value="large">Large</option>
+                                    </select> 
+                                <br>
+
+                                <p>Text Height:</p>
+                                    <select name="" id="">
+                                        <option value="small">Small</option>
+                                        <option value="normal">Normal</option>
+                                        <option value="large">Large</option>
+                                    </select> 
+                                <br>
+
+                                <p>Text Font:</p> 
+                                    <select name="" id="">
+                                        <option value="calibri">Calibri</option>
+                                        <option value="normal">Arial</option>
+                                        <option value="large">Robot</option>
+                                    </select> 
+                                <br>
+
+                                <p>Text Color:</p>
+                                <input id="text-color" class="colorpicker" style="width: 100%;">
     
                                 <div class="main-buttons">
                                     <button id="paint-save">Save</button>
