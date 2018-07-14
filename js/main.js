@@ -66,6 +66,13 @@ $(document).ready(() => {
         }
     });
 
+
+    //on click on paint save
+    $('#paint-save').click(function(){
+        let e = new MouseEvent('click');
+        document.getElementById('settingsBtn').dispatchEvent(e);
+    })
+
     //on click on paint eraser
     $('#paint-eraser').click(function(){
         if(paint){

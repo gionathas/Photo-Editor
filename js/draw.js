@@ -118,7 +118,7 @@ function Paint(canvas,backgroundImage)
         context.drawImage(img, 0,0, img.width, img.height,
             centerShift_x,centerShift_y,img.width*ratio, img.height*ratio);
 
-            console.log(paintPoints);
+            //console.log(paintPoints);
             
         
         //drawing brush lines
