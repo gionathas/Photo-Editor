@@ -66,7 +66,6 @@ $(document).ready(() => {
         }
     });
 
-
     //on click on paint save
     $('#paint-save').click(function(){
         let e = new MouseEvent('click');
@@ -127,6 +126,27 @@ $(document).ready(() => {
             }
         }
     })
+
+    //TEXT FILTER
+
+    //on insert text to paint
+    $('#paint-text').keyup(function(){
+        let text = $(this).val();
+        
+        if(paint){
+            paint.setText(text);
+        }
+    });
+
+    //on change text size
+    $('#paint-text-size').change(function(){        
+        let size = $(this).val();
+
+        if(paint){
+            paint.setTextSize(size);
+        }
+    })
+
 
     //on click on Choose Photo Button
     uploadBtn.change(() => uploadPhoto());

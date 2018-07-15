@@ -284,32 +284,28 @@
 
                                 <h3>Text</h3>
 
-                                <input type="text" id="paint-text" placeholder="Insert text here"> <br>
+                                <form action="" name="text-attr" autocomplete="off">
+                                    <input type="text" id="paint-text" placeholder="Insert text here"> <br>
 
-                                <p>Text Width:</p> 
-                                    <select name="" id="">
-                                        <option value="small">Small</option>
-                                        <option value="normal">Normal</option>
-                                        <option value="large">Large</option>
+                                    <p>Text Size:</p>
+                                    <select name="" id="paint-text-size">
+                                        <option value="20px">Small</option>
+                                        <option value="50px">Medium</option>
+                                        <option value="70px" selected>Normal</option>
+                                        <option value="100px">Large</option>
+                                        <option value="150px">Huge</option>
                                     </select> 
-                                <br>
+                                    <br>
 
-                                <p>Text Height:</p>
-                                    <select name="" id="">
-                                        <option value="small">Small</option>
-                                        <option value="normal">Normal</option>
-                                        <option value="large">Large</option>
-                                    </select> 
-                                <br>
-
-                                <p>Text Font:</p> 
-                                    <select name="" id="">
-                                        <option value="calibri">Calibri</option>
-                                        <option value="normal">Arial</option>
-                                        <option value="large">Robot</option>
-                                    </select> 
-                                <br>
-
+                                    <p>Text Font:</p> 
+                                        <select name="" id="paint-tet-font">
+                                            <option value="calibri" selected>Calibri</option>
+                                            <option value="Arial">Arial</option>
+                                            <option value="Roboto">Roboto</option>
+                                        </select> 
+                                    <br>
+                                </form>
+                                
                                 <p>Text Color:</p>
                                 <input id="text-color" class="colorpicker" style="width: 100%;">
     

@@ -55,6 +55,7 @@
 .paint-tools select{
     background-color: rgb(44, 44, 94);
     color: white;
+    border:none;
     font-size: 20px;
     padding: 5px;
 }

@@ -19,35 +19,29 @@ function Paint(canvas,backgroundImage)
     //text elements
     let text = '';
     let textColor = 'rgb(0,0,255)';
-    let textSize = '20pt';
+    let textSize = '70px';
     let textFont = 'Calibri';
-    let textWidth = 150;
-    let textHeight = 150;
     let strokeText = false;
     let fillText = true;
 
     this.setTextColor = function(newColor){
         textColor = newColor;
+        draw();
     }
 
     this.setText = function(newText){
         text = newText;
+        draw();
     }
 
     this.setTextSize = function(newSize){
         textSize = newSize;
+        draw();
     }
 
     this.setTextFont = function(newFont){
         textFont = newFont;
-    }
-
-    this.setTextHeight = function(newHeight){
-        textHeight = newHeight;
-    }
-
-    this.setTextWidth = function(newWidth){
-        textWidth = newWidth;
+        draw();
     }
 
     this.setFillText = function(newFillText){
@@ -89,9 +83,9 @@ function Paint(canvas,backgroundImage)
         this.canvas.addEventListener('mousemove',function(evt){
             if(paint){
 
-            addPoint(getMousePosition(canvas,evt),true,brushColor,brushSize);
-                
-            draw();
+                addPoint(getMousePosition(canvas,evt),true,brushColor,brushSize);
+                    
+                draw();
             }
         })
 
@@ -132,8 +126,13 @@ function Paint(canvas,backgroundImage)
         context.drawImage(img, 0,0, img.width, img.height,
             centerShift_x,centerShift_y,img.width*ratio, img.height*ratio);
 
-            //console.log(paintPoints);
-            
+        //if text is setted
+        if(text != ''){ 
+            //draw text
+            context.font = textSize + " "+ textFont;
+            context.fillStyle = textColor;            
+            context.fillText(text,Math.floor(canvas.width /2),Math.floor(canvas.height / 2));
+        }            
         
         //drawing brush lines
         context.lineJoin = "round";
