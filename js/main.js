@@ -62,6 +62,7 @@ $(document).ready(() => {
     //on click on paint clear
     $('#paint-clear').click(function(){
         if(paint){
+            $('#paint-text').val('');
             paint.clear();
         }
     });
@@ -78,19 +79,19 @@ $(document).ready(() => {
             let size = $(this).attr('id').replace('paint-','');
 
             if(size == 'small'){
-                paint.setSize('4');
+                paint.setBrushSize('4');
             }
             else if(size == 'medium'){
-                paint.setSize('12');
+                paint.setBrushSize('12');
             }
             else if(size == 'normal'){
-                paint.setSize('18');
+                paint.setBrushSize('18');
             }
             else if(size == 'large'){
-                paint.setSize('23');
+                paint.setBrushSize('23');
             }
             else if(size == 'huge'){
-                paint.setSize('30');
+                paint.setBrushSize('30');
             }
         }
         
@@ -144,6 +145,24 @@ $(document).ready(() => {
 
         if(paint){
             paint.setTextSize(size);
+        }
+    })
+
+    //on change text font
+    $('#paint-text-font').change(function(){
+        let font = $(this).val();
+
+        if(paint){
+            paint.setTextFont(font);
+        }
+    })
+
+    //on change text style
+    $('#paint-text-style').change(function(){
+        let style = $(this).val();
+
+        if(paint){
+            paint.setTextStyle(style);
         }
     })
 

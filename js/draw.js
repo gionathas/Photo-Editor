@@ -14,42 +14,42 @@ function Paint(canvas,backgroundImage)
     let brushColor = 'rgb(0,0,255)';
     let brushSize = 10;
 
+    //element for drawing 
     let paintPoints = new Array();
+    let paintText = new PaintText('',Math.floor(canvas.width /2),Math.floor(canvas.height / 2),'Calibri','normal','70px','rgb(0,0,255)',context);
 
-    //text elements
-    let text = '';
-    let textColor = 'rgb(0,0,255)';
-    let textSize = '70px';
-    let textFont = 'Calibri';
-    let strokeText = false;
-    let fillText = true;
+
+    this.setTextStyle = function(newStyle){
+        paintText.style = newStyle;
+        paintText.update();
+        draw();
+    }
 
     this.setTextColor = function(newColor){
-        textColor = newColor;
+        paintText.color = newColor;
+        paintText.update();
         draw();
     }
 
     this.setText = function(newText){
-        text = newText;
+        paintText.text = newText;
+        paintText.update();        paintText.update();
+
         draw();
     }
 
     this.setTextSize = function(newSize){
-        textSize = newSize;
+        paintText.size = newSize;
+        paintText.update();
+
         draw();
     }
 
     this.setTextFont = function(newFont){
-        textFont = newFont;
+        paintText.font = newFont;
+        paintText.update();
+
         draw();
-    }
-
-    this.setFillText = function(newFillText){
-        fillText = newFillText;
-    }
-
-    this.setStrokeText = function(newStroke){
-        strokeText = newStroke;
     }
 
     this.setBrushColor = function(newbrushColor){
@@ -62,17 +62,24 @@ function Paint(canvas,backgroundImage)
 
     this.clear = function(){
         paintPoints = new Array();
+        paintText.text = '';
+        paintText.update();
+
         draw();
     }
 
     this.start = function(){
         this.brushColor = 'rgb(0,0,255)';
         this.brushSize = 10;
+
+
         //on mouse down
         this.canvas.addEventListener('mousedown',function(evt){
             let mousePosition = getMousePosition(canvas,evt);
 
             paint = true;
+
+            paintText.contains(mousePosition);
             
             addPoint(mousePosition,false,brushColor,brushSize);
             
@@ -83,6 +90,7 @@ function Paint(canvas,backgroundImage)
         this.canvas.addEventListener('mousemove',function(evt){
             if(paint){
 
+                paintText.contains(getMousePosition(canvas,evt));
                 addPoint(getMousePosition(canvas,evt),true,brushColor,brushSize);
                     
                 draw();
@@ -127,11 +135,9 @@ function Paint(canvas,backgroundImage)
             centerShift_x,centerShift_y,img.width*ratio, img.height*ratio);
 
         //if text is setted
-        if(text != ''){ 
+        if(paintText.text != ''){ 
             //draw text
-            context.font = textSize + " "+ textFont;
-            context.fillStyle = textColor;            
-            context.fillText(text,Math.floor(canvas.width /2),Math.floor(canvas.height / 2));
+            paintText.draw();
         }            
         
         //drawing brush lines
@@ -152,6 +158,46 @@ function Paint(canvas,backgroundImage)
             context.strokeStyle = paintPoints[i].brushColor;
             context.lineWidth = paintPoints[i].brushSize;
             context.stroke();
+        }
+    }
+}
+
+function PaintText(text,x,y,font,style,size,color,context)
+{
+    this.text = text;
+    this.x = x;
+    this.y = y;
+    this.font = font;
+    this.style = style;
+    this.size = size;
+    this.color = color;
+
+    //setup
+    context.font = this.style + " "+ this.size +" "+this.font;            
+    context.fillStyle = this.color;
+    
+    let width = context.measureText(this.text).width;
+    let height = context.measureText('M').height;
+
+    this.draw = function(){
+        context.font = this.style + " "+ this.size +" "+this.font;            
+        context.fillStyle = this.color;            
+        context.fillText(this.text,this.x,this.y);
+    }
+
+    //update width & height of text
+    this.update = function(){
+        width = context.measureText(this.text).width;
+        height = context.measureText('M').width;
+        console.log(width+" "+height);
+        
+    }
+
+    this.contains = function(point){
+        if(point.x >= this.x && point.x <= this.x + width 
+        && point.y >= this.y && point.y <= this.y + height){
+            console.log('hit');
+            
         }
     }
 }
