@@ -10,45 +10,84 @@ function Paint(canvas,backgroundImage)
     let img = new Image();
     img.src = backgroundImage;
 
-    let color = 'rgb(0,0,255)';
-    let size = 10;
+    //brush elements
+    let brushColor = 'rgb(0,0,255)';
+    let brushSize = 10;
 
+    //element for drawing 
     let paintPoints = new Array();
-    let tool = 'pen';
+    let paintText = new PaintText('',Math.floor(canvas.width /2),Math.floor(canvas.height / 2),'Calibri','normal','70px','rgb(0,0,255)',context);
 
-    this.setColor = function(newColor){
-        color = newColor;
+    let startingDragPoint = undefined;
+
+    this.setTextStyle = function(newStyle){
+        paintText.style = newStyle;
+        paintText.update();
+        draw();
     }
 
-    this.setSize = function(newSize){
-        size = newSize;
+    this.setTextColor = function(newColor){
+        paintText.color = newColor;
+        paintText.update();
+        draw();
     }
 
-    this.setTool = function(newTool){
-        tool = newTool;
+    this.setText = function(newText){
+        paintText.text = newText;
+        paintText.update();     
+        draw();
+    }
+
+    this.setTextSize = function(newSize){
+        paintText.size = newSize;
+        paintText.update();
+
+        draw();
+    }
+
+    this.setTextFont = function(newFont){
+        paintText.font = newFont;
+        paintText.update();
+
+        draw();
+    }
+
+    this.setBrushColor = function(newbrushColor){
+        brushColor = newbrushColor;
+    }
+
+    this.setBrushSize = function(newbrushSize){
+        brushSize = newbrushSize;
     }
 
     this.clear = function(){
         paintPoints = new Array();
+        paintText.text = '';
+        paintText.update();
+
         draw();
     }
 
     this.start = function(){
-        this.color = 'rgb(0,0,255)';
-        this.size = 10;
+        this.brushColor = 'rgb(0,0,255)';
+        this.brushSize = 10;
+
+
         //on mouse down
         this.canvas.addEventListener('mousedown',function(evt){
             let mousePosition = getMousePosition(canvas,evt);
 
             paint = true;
 
-            if(tool == 'pen'){   
-                addPoint(mousePosition,false,color,size);
+            //if the click goes inside the text, we are begin to drag the text
+            if(paintText.contains(mousePosition)){
+                paintText.dragging = true;
+                startingDragPoint = mousePosition;
             }
-            //eraser
             else{
-                removePoints(mousePosition);
+                addPoint(mousePosition,false,brushColor,brushSize);
             }
+            
             draw();
         })
 
@@ -56,14 +95,23 @@ function Paint(canvas,backgroundImage)
         this.canvas.addEventListener('mousemove',function(evt){
             if(paint){
 
-                if(tool == 'pen'){
-                    addPoint(getMousePosition(canvas,evt),true,color,size);
-                }
-                //eraser
-                else{
-                    removePoints(getMousePosition(canvas,evt));
-                }
+                const mouse = getMousePosition(canvas,evt);
 
+                //we are moving the text
+                if(paintText.dragging){
+                    const moveX = startingDragPoint.x - mouse.x;
+                    const moveY = startingDragPoint.y - mouse.y;
+
+                    startingDragPoint = mouse;
+
+                    paintText.x -= moveX;
+                    paintText.y -= moveY;
+                }
+                //we are brushing the canvas
+                else{
+                    addPoint(mouse,true,brushColor,brushSize);
+                }
+                    
                 draw();
             }
         })
@@ -71,11 +119,13 @@ function Paint(canvas,backgroundImage)
         //on mouse up
         this.canvas.addEventListener('mouseup',function(){
             paint = false;
+            paintText.dragging = false;
         });
 
         //on mouse leave canvas
         this.canvas.addEventListener('mouseleave',function(){
             paint = false;
+            paintText.dragging = false;
         })
 
         img.onload = function(){
@@ -91,24 +141,11 @@ function Paint(canvas,backgroundImage)
     }
 
     //add a new point to draw
-    function addPoint(point,dragging,color,size){
-        let newPoint = new PaintPoint(point.x,point.y,dragging,color,size)
+    function addPoint(point,dragging,brushColor,brushSize){
+        let newPoint = new PaintPoint(point.x,point.y,dragging,brushColor,brushSize)
         paintPoints.push(newPoint);
     }
 
-    function removePoints(point){
-        paintPoints.filter(function(PaintPoint){
-            return !isNearPoint(point,PaintPoint);
-        })
-    }
-
-    function isNearPoint(point1,point2){
-        if(Math.abs(point1.x - point2.x) < size && Math.abs(point1.y - point2.y) < size){
-            return true;
-        }else{
-            return false;
-        }
-    }
 
     function draw(){        
         
@@ -118,8 +155,11 @@ function Paint(canvas,backgroundImage)
         context.drawImage(img, 0,0, img.width, img.height,
             centerShift_x,centerShift_y,img.width*ratio, img.height*ratio);
 
-            //console.log(paintPoints);
-            
+        //if text is setted
+        if(paintText.text != ''){ 
+            //draw text
+            paintText.draw();
+        }            
         
         //drawing brush lines
         context.lineJoin = "round";
@@ -136,20 +176,65 @@ function Paint(canvas,backgroundImage)
 
             context.lineTo(paintPoints[i].x, paintPoints[i].y);
             context.closePath();
-            context.strokeStyle = paintPoints[i].color;
-            context.lineWidth = paintPoints[i].size;
+            context.strokeStyle = paintPoints[i].brushColor;
+            context.lineWidth = paintPoints[i].brushSize;
             context.stroke();
         }
     }
 }
 
-function PaintPoint(x,y,drag,color,size)
+function PaintText(text,x,y,font,style,size,color,context)
+{
+    this.text = text;
+    this.x = x;
+    this.y = y;
+    this.font = font;
+    this.style = style;
+    this.size = size;
+    this.color = color;
+    this.dragging = false;
+
+    //setup
+    context.font = this.style + " "+ this.size +" "+this.font;            
+    context.fillStyle = this.color;
+    
+    let width = context.measureText(this.text).width;
+    let height = context.measureText('M').height;
+
+    this.draw = function(){ 
+       // context.strokeRect(this.x,this.y - height,width,height);         
+        context.fillText(this.text,this.x,this.y);
+    }
+
+    //update width & height of text
+    this.update = function(){
+        context.font = this.style + " "+ this.size +" "+this.font;            
+        context.fillStyle = this.color;
+        width = context.measureText(this.text).width;
+        height = context.measureText('M').width;
+       // console.log(width+" "+height);
+        
+    }
+
+    this.contains = function(point){
+        if(point.x >= this.x && point.x <= this.x + width 
+        && point.y >= this.y - height && point.y <= this.y){
+            return true;
+            
+        }
+        else{
+            return false;
+        }
+    }
+}
+
+function PaintPoint(x,y,drag,brushColor,brushSize)
 {
     this.x = x;
     this.y = y;
     this.drag = drag;
-    this.color = color;
-    this.size = size;
+    this.brushColor = brushColor;
+    this.brushSize = brushSize;
 }
 
 function getMousePosition(canvas,evt)

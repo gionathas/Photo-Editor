@@ -62,10 +62,10 @@ $(document).ready(() => {
     //on click on paint clear
     $('#paint-clear').click(function(){
         if(paint){
+            $('#paint-text').val('');
             paint.clear();
         }
     });
-
 
     //on click on paint save
     $('#paint-save').click(function(){
@@ -73,40 +73,32 @@ $(document).ready(() => {
         document.getElementById('settingsBtn').dispatchEvent(e);
     })
 
-    //on click on paint eraser
-    $('#paint-eraser').click(function(){
-        if(paint){
-            paint.setTool('eraser');
-        }
-    })
-
     //on click on size of painting
     $('.paint-size').click(function(){
-
         if(paint){
             let size = $(this).attr('id').replace('paint-','');
 
             if(size == 'small'){
-                paint.setSize('4');
+                paint.setBrushSize('4');
             }
             else if(size == 'medium'){
-                paint.setSize('12');
+                paint.setBrushSize('12');
             }
             else if(size == 'normal'){
-                paint.setSize('18');
+                paint.setBrushSize('18');
             }
             else if(size == 'large'){
-                paint.setSize('23');
+                paint.setBrushSize('23');
             }
             else if(size == 'huge'){
-                paint.setSize('30');
+                paint.setBrushSize('30');
             }
         }
         
     })
 
     //set color picker object
-    $("#colorpicker").spectrum({
+    $(".colorpicker").spectrum({
         showPaletteOnly: true,
         color: '#0000FF',
         palette: [
@@ -122,11 +114,58 @@ $(document).ready(() => {
     });
 
     //on change color on color picker
-    $("#colorpicker").change(function(){
+    $(".colorpicker").change(function(){
         if(paint){
-            paint.setColor($(this).val());
+            let type = $(this).attr('id').replace('-color','');
+            let color = $(this).val();
+
+            if(type == 'brush'){
+                paint.setBrushColor(color);
+            }
+            else{
+                paint.setTextColor(color)
+            }
         }
     })
+
+    //TEXT FILTER
+
+    //on insert text to paint
+    $('#paint-text').keyup(function(){
+        let text = $(this).val();
+        
+        if(paint){
+            paint.setText(text);
+        }
+    });
+
+    //on change text size
+    $('#paint-text-size').change(function(){        
+        let size = $(this).val();
+
+        if(paint){
+            paint.setTextSize(size);
+        }
+    })
+
+    //on change text font
+    $('#paint-text-font').change(function(){
+        let font = $(this).val();
+
+        if(paint){
+            paint.setTextFont(font);
+        }
+    })
+
+    //on change text style
+    $('#paint-text-style').change(function(){
+        let style = $(this).val();
+
+        if(paint){
+            paint.setTextStyle(style);
+        }
+    })
+
 
     //on click on Choose Photo Button
     uploadBtn.change(() => uploadPhoto());
