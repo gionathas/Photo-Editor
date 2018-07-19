@@ -18,6 +18,7 @@ function Paint(canvas,backgroundImage)
     let paintPoints = new Array();
     let paintText = new PaintText('',Math.floor(canvas.width /2),Math.floor(canvas.height / 2),'Calibri','normal','70px','rgb(0,0,255)',context);
 
+    let startingDragPoint = undefined;
 
     this.setTextStyle = function(newStyle){
         paintText.style = newStyle;
@@ -33,8 +34,7 @@ function Paint(canvas,backgroundImage)
 
     this.setText = function(newText){
         paintText.text = newText;
-        paintText.update();        paintText.update();
-
+        paintText.update();     
         draw();
     }
 
@@ -79,9 +79,14 @@ function Paint(canvas,backgroundImage)
 
             paint = true;
 
-            paintText.contains(mousePosition);
-            
-            addPoint(mousePosition,false,brushColor,brushSize);
+            //if the click goes inside the text, we are begin to drag the text
+            if(paintText.contains(mousePosition)){
+                paintText.dragging = true;
+                startingDragPoint = mousePosition;
+            }
+            else{
+                addPoint(mousePosition,false,brushColor,brushSize);
+            }
             
             draw();
         })
@@ -90,8 +95,22 @@ function Paint(canvas,backgroundImage)
         this.canvas.addEventListener('mousemove',function(evt){
             if(paint){
 
-                paintText.contains(getMousePosition(canvas,evt));
-                addPoint(getMousePosition(canvas,evt),true,brushColor,brushSize);
+                const mouse = getMousePosition(canvas,evt);
+
+                //we are moving the text
+                if(paintText.dragging){
+                    const moveX = startingDragPoint.x - mouse.x;
+                    const moveY = startingDragPoint.y - mouse.y;
+
+                    startingDragPoint = mouse;
+
+                    paintText.x -= moveX;
+                    paintText.y -= moveY;
+                }
+                //we are brushing the canvas
+                else{
+                    addPoint(mouse,true,brushColor,brushSize);
+                }
                     
                 draw();
             }
@@ -100,11 +119,13 @@ function Paint(canvas,backgroundImage)
         //on mouse up
         this.canvas.addEventListener('mouseup',function(){
             paint = false;
+            paintText.dragging = false;
         });
 
         //on mouse leave canvas
         this.canvas.addEventListener('mouseleave',function(){
             paint = false;
+            paintText.dragging = false;
         })
 
         img.onload = function(){
@@ -171,6 +192,7 @@ function PaintText(text,x,y,font,style,size,color,context)
     this.style = style;
     this.size = size;
     this.color = color;
+    this.dragging = false;
 
     //setup
     context.font = this.style + " "+ this.size +" "+this.font;            
@@ -179,25 +201,29 @@ function PaintText(text,x,y,font,style,size,color,context)
     let width = context.measureText(this.text).width;
     let height = context.measureText('M').height;
 
-    this.draw = function(){
-        context.font = this.style + " "+ this.size +" "+this.font;            
-        context.fillStyle = this.color;            
+    this.draw = function(){ 
+       // context.strokeRect(this.x,this.y - height,width,height);         
         context.fillText(this.text,this.x,this.y);
     }
 
     //update width & height of text
     this.update = function(){
+        context.font = this.style + " "+ this.size +" "+this.font;            
+        context.fillStyle = this.color;
         width = context.measureText(this.text).width;
         height = context.measureText('M').width;
-        console.log(width+" "+height);
+       // console.log(width+" "+height);
         
     }
 
     this.contains = function(point){
         if(point.x >= this.x && point.x <= this.x + width 
-        && point.y >= this.y && point.y <= this.y + height){
-            console.log('hit');
+        && point.y >= this.y - height && point.y <= this.y){
+            return true;
             
+        }
+        else{
+            return false;
         }
     }
 }
