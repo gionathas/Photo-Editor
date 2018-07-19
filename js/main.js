@@ -2,16 +2,13 @@ $(document).ready(() => {
     
     const fadeTime = 300;
 
-    //buttons
-    const uploadBtn = $("#file");
-
     //image element, default value
     let imageUploaded = true;
     let imageSrc = 'img/moto.jpg';
     let filename = 'img/moto.jpg';
 
-    let activeEditor = $(".paintArea");
-    let activeIconBar = $("#paintBtn");
+    let activeEditor = $(".settings");
+    let activeIconBar = $("#settingsBtn");
 
     //all sliders tools in basic edit
     const sliders = $('input[type=range]');
@@ -22,6 +19,7 @@ $(document).ready(() => {
     //crop object
     let cropper = undefined;
     let paint = undefined;
+    let paintSaved = true;
 
     let canvasMode = 'caman';
 
@@ -31,9 +29,17 @@ $(document).ready(() => {
     resetTextInput();
 
     // Assign all panel animation to icon bar element
-    $("#editBtn").click(() => {toCamanCanvas();panelAnimation($(".basic-edits"),$(this))});
-    $("#settingsBtn").click(() => {toCamanCanvas();panelAnimation($(".settings"),$(this))});
-    $("#filtersBtn").click(() => {toCamanCanvas();panelAnimation($(".filters-panel"),$(this))});
+    $("#editBtn").click(() => {
+        displayPanel($(".basic-edits"),$('#editBtn'));
+    });
+
+    $("#settingsBtn").click(() => {
+        displayPanel($(".settings"),$('#settingsBtn'));
+    });
+
+    $("#filtersBtn").click(() => {
+        displayPanel($(".filters-panel"),$('#filtersBtn'));
+    });
 
     //*** PAINT AREA */
 
@@ -55,8 +61,10 @@ $(document).ready(() => {
         canvas.height = canvas.offsetHeight; 
 
         paint = new Paint(canvas,imageURL);
+        paintSaved = false;
 
         paint.start();
+        $('#paint-text').val('');
     })
 
     //on click on paint clear
@@ -69,6 +77,7 @@ $(document).ready(() => {
 
     //on click on paint save
     $('#paint-save').click(function(){
+        paintSaved = true;
         let e = new MouseEvent('click');
         document.getElementById('settingsBtn').dispatchEvent(e);
     })
@@ -167,9 +176,6 @@ $(document).ready(() => {
     })
 
 
-    //on click on Choose Photo Button
-    uploadBtn.change(() => uploadPhoto());
-
     // ********* EDIT AREA
 
     //apply edit filter when a slider value change
@@ -263,6 +269,14 @@ $(document).ready(() => {
 
     //on click on tools icon bar button
     $("#toolsBtn").click(function(){
+
+        if(!paintSaved){
+            const res = confirm('Do you want apply your Paint?');
+
+            if(!res){
+                $('#paint-clear').trigger('click');
+            }
+        }
 
         //hide icon bar and editor
         $('.editor').hide('fast',function(){
@@ -383,6 +397,9 @@ $(document).ready(() => {
 
     //SETTINGS AREA
 
+    //on click on Choose Photo Button
+    $("#file").change(() => uploadPhoto());
+
     //on click on reset photo
     $('#resetBtn').click(function(){
         $('#canvas').replaceWith('<img id="canvas" src="" alt="">');
@@ -417,40 +434,19 @@ $(document).ready(() => {
     
     //******* FUNCTIONS **************
 
-    function toNormalCanvas(canvas)
-    {
-        if(canvasMode == 'caman')
-        {
-            console.log("normal");
-            
-            //update canvas mode
-            canvasMode = 'normal';
+    function displayPanel(panel,icon){
+        if(!paintSaved){
+            const res = confirm('Do you want apply your Paint?');
 
-            // //get current image on canvas
-            let imageURL = canvas.toDataURL();
-
-            // //modified some canvas parameter
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;  
-            
-            //get context
-            let context = canvas.getContext('2d');
-
-            //create an image with the content inside the canvas
-            let img = new Image();
-            img.src = imageURL;
-
-            //center the image on canvas when is loaded
-            img.onload = function(){
-                let hRatio = canvas.width  / img.width    ;
-                let vRatio =  canvas.height / img.height  ;
-                let ratio  = Math.min ( hRatio, vRatio );
-                let centerShift_x = ( canvas.width - img.width*ratio ) / 2;
-                let centerShift_y = ( canvas.height - img.height*ratio ) / 2;  
-                context.drawImage(img, 0,0, img.width, img.height,
-                                    centerShift_x,centerShift_y,img.width*ratio, img.height*ratio);
+            if(!res){
+                $('#paint-clear').trigger('click');
             }
-        }   
+        }
+       
+        toCamanCanvas();
+        panelAnimation(panel,icon);
+        paintSaved = true;
+    
     }
 
     function toCamanCanvas()
