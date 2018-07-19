@@ -247,6 +247,9 @@ $(document).ready(() => {
         applyAllFilters();
     });
 
+
+    // PRESETS AREA
+
     //on click on preset filter
     $('.filter-container').click(function(){
         presetFilter = $(this).attr('id').replace('-filter','');
@@ -410,29 +413,28 @@ $(document).ready(() => {
         //create canvas from image uploaded
         Caman("#canvas");
 
+        resetEditor();
     });
 
     //on click on save photo
     $('#saveBtn').click(function(){
-        const fileExtension = filename.slice(-4);
-
-        let newFileName;
-
-        if(fileExtension === '.jpg' || fileExtension === '.png')
-        {  
-            newFileName = filename.substring(0,filename.length - 4)+ '-edited.jpg';
-        }
-
-        //console.log(newFileName);
+        const filenames = filename.split('.');
         
+        let newFileName = filenames[0]+"-edited.jpg";
+                
         donwloadPhoto(newFileName);
     });
-
-    //On canvas click update photo
-    //canvas.click(uploadPhoto();
-
     
     //******* FUNCTIONS **************
+
+    function resetEditor()
+    {
+        resetAllSliders();
+        resetTextInput();
+
+        presetFilter = undefined;
+        $('#filters-header-btn').css("visibility","hidden");
+    }
 
     function displayPanel(panel,icon){
         if(!paintSaved){
@@ -579,6 +581,8 @@ $(document).ready(() => {
 
             //create canvas from image uploaded
             Caman("#canvas");
+
+            resetEditor();
         });
     }
 
