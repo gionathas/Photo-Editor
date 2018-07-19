@@ -1,11 +1,4 @@
 /* SETTINGS STYLE */
-.settings h2{
-    text-align: center;
-    background-color: #282c31;
-    padding: 20px 0px;
-    border-radius: 2px;
-    font-size: 26px;
-}
 
 /* Hide input element */
 .inputfile {
@@ -29,7 +22,7 @@ button, .settings .inputfile + label{
     text-align: center;
     color: white;
     overflow: auto;
-    font-size: 20px;
+    font-size: 21px;
     display: block;
     width: 40%;
     margin-top: 8%;
@@ -54,7 +47,7 @@ button:hover, .settings .inputfile + label{
 }
 
 .button-area{
-    padding-top: 9%;
+    padding-top: 10%;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;

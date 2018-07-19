@@ -19,7 +19,7 @@ header{
 
 .container{
     width: 80%;
-    margin: auto;
+    margin: 3% auto;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -54,4 +54,13 @@ header{
     color: white;
     height: 700px;
     overflow: auto;
+}
+
+.panel-header{
+    text-align: center;
+    background-color: #282c31;
+    border-radius: 15px;
+    font-size: 26px;
+    padding: 20px 0px;
+    position: relative;
 }

@@ -10,6 +10,13 @@
         <link rel="stylesheet" href="css/icon-bar.css">
         <link rel="stylesheet" href="css/settings-style.css">
         <link rel="stylesheet" href="css/basic-edits-style.css">
+        <link rel="stylesheet" href="css/filters.css">
+        <link rel="stylesheet" href="css/manual-area.css">
+        <link rel="stylesheet" href="css/paint-area.css">
+
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.0/cropper.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
 
         <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
@@ -25,26 +32,59 @@
         <div class="container">
             
             <!-- Navbar  -->
-            <div class="icon-bar">
-                <a id="settingsBtn" class="" href="#"><i class="fa fa-cogs"></i> <span class="tooltip">Settings</span></a>
-                <a id="editBtn" class="active" href="#"><i class="fas fa-sliders-h"></i><span class="tooltip">Basic Edit</span></a>
-                <a id="filtersBtn" href="#"><i class="fa fa-magic"></i><span class="tooltip">Filters</span></a>
-                <a id="textBtn" href="#"><i class="fas fa-font"></i><span class="tooltip">Text</span></a>
-                <a id="paintBtn" href="#"><i class="fa fa-paint-brush"></i><span class="tooltip">Paint</span></a> 
+            <div class="icon-bar" style="">
+                <a id="settingsBtn" class="active" href="#"><i class="fa fa-cogs"></i> <span class="tooltip">Settings</span></a>
+                <a id="editBtn" class="" href="#"><i class="fas fa-sliders-h"></i><span class="tooltip">Basic Edit</span></a>
+                <a id="toolsBtn" class="" href="#"><i class="fas fa-wrench"></i><span class="tooltip">Manual Tools</span></a>
+                <a id="filtersBtn" class="" href="#"><i class="fa fa-magic"></i><span class="tooltip">Filters</span></a>
+                <a id="paintBtn" class="" href="#"><i class="fas fa-palette"></i><span class="tooltip">Paint / Text</span></a> 
+            </div>
+
+            <!-- Tools Area on Manual Mode -->
+            <div class="manual-tools-area" style="display: none;">
+
+                <div class="group ">
+                    <button id="move"><i class="fas fa-arrows-alt"></i></button>
+                    <button id="crop"><i class="fas fa-crop-alt"></i></button>
+                </div>
+
+                <div class="group ">
+                    <button id="zoomIn"><i class="fas fa-search-plus"></i></button>
+                    <button id="zoomOut"><i class="fas fa-search-minus"></i></button>
+                </div>
+
+                <div class="group ">
+                    <button id="arrow-up"><i class="fas fa-arrow-up"></i></button>
+                    <button id="arrow-down"><i class="fas fa-arrow-down"></i></button>
+                    <button id="arrow-left"><i class="fas fa-arrow-left"></i></button>
+                    <button id="arrow-right"><i class="fas fa-arrow-right"></i></button>
+                </div>
+
+                <div class="group ">
+                    <button id="rotate-left"><i class="fas fa-undo"></i></button>
+                    <button id="rotate-right"><i class="fas fa-redo"></i></button>
+                </div>
+
+                <div class="group ">
+                    <button id="apply-manual"><i class="fas fa-check-circle"></i></button>
+                    <button id="exit-manual"><i class="fas fa-times-circle"></i></button>
+                    <button id="reset-manual"><i class="fas fa-sync"></i></button>
+                </div>
+                
             </div>
 
             <!-- Stage with Canvas and Editor -->
             <div class="main-stage">
                 
                  <!-- Canvas with Image -->
-                <img id="canvas" src="/home/gio/Scrivania/js/simpleImageFilter/img/moto.jpg" alt="">
+                <img id="canvas" src="img/moto.jpg" alt="">
     
                 <!-- Editor -->
                 <div class="editor">
 
                         <!-- SETTINGS PANEL -->
-                        <div class="settings" style="display: none;">
-                            <h2>Settings</h2>
+                        <div class="settings" style="">
+                            <h2 class="panel-header">Settings</h2>
 
                             <div class="button-area">
                                 <!-- <input id="uploadBtn" type="file"><i class="fa fa-upload"></i> Upload Photo</button> -->
@@ -57,9 +97,9 @@
                         </div>
                         
                         <!-- BASIC EDIT PANEL -->
-                        <div class="basic-edits">
+                        <div class="basic-edits" style="display: none;">
 
-                            <h2>Edit Photo</h2>
+                            <h2 class="panel-header">Edit Photo</h2>
                             
                             <div class="edit-area">
 
@@ -75,22 +115,7 @@
                                         <button id="resize-submit">Apply</button>
                                         <p id="resize-error">Invalid Values</p>
                                      </div>
-
-                                    <div id="crop" class="element">
-                                        <i class="fa fa-crop-alt"></i>
-                                        <p>Crop</p>
-                                    </div>
                 
-                                    <div id="rotate" class="element slidepanel">
-                                        <i class="fa fa-sync"></i>
-                                        <p>Rotate</p>
-                                    </div>
-
-                                    <div id="rotate-area">
-                                        <button class="rotateBtn" id="rotate-left"><i class="fas fa-undo"></i></button>
-                                        <button class="rotateBtn" id="rotate-right"><i class="fas fa-redo"></i></button>
-                                    </div>
-
                                     <div class="element">
                                         <i class="fa fa-adjust"></i>
                                         <label>Contrast</label>
@@ -123,8 +148,8 @@
                                     <div class="element">
                                         <i class="fab fa-audible"></i>
                                         <label>Blur</label>
-                                        <input id="blur" type="range" name="blur" min="0" max="100" step="1" value="0">
-                                        <span id="blur-rst">Reset</span>
+                                        <input id="stackBlur" type="range" name="blur" min="0" max="100" step="1" value="0">
+                                        <span id="stackBlur-rst">Reset</span>
                                     </div>
 
                                     <div class="element">
@@ -145,23 +170,177 @@
                                     <button id="resetEditBtn" class="">Reset All</button>
 
                                 </div>
+                        </div>
+
+                        <!-- FILTERS PANEL -->
+                        <div class="filters-panel" style="display: none;">
+
+                                <div class="panel-header">
+                                    <h2 id="filters-header-text">Filters</h2>
+                                    <button id="filters-header-btn"><i class="fas fa-times-circle"></i></button>
+                                </div>
+
+                                <div class="filters-gallery">
+
+                                    <div class="row-filters-container">
+                                        <div id="pinhole-filter" class="filter-container">
+                                            <img src="img/preset/pinhole.png" alt="">
+                                            <p class="filter-title">Pinhole</p>
+                                        </div>
+
+                                        <div id="clarity-filter" class="filter-container">
+                                            <img src="img/preset/clarity.png" alt="">
+                                            <p class="filter-title">Clarity</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-filters-container">
+                                            <div id="love-filter" class="filter-container">
+                                                <img src="img/preset/love.png" alt="">
+                                                <p class="filter-title">Love</p>
+                                            </div>
+                                            <div id="jarques-filter" class="filter-container">
+                                                <img src="img/preset/jarques.png" alt="">
+                                                <p class="filter-title">Jarques</p>
+                                            </div>
+                                    </div>
+
+                                    <div class="row-filters-container">
+                                            <div id="orangePeel-filter" class="filter-container">
+                                                <img src="img/preset/orangePeel.png" alt="">
+                                                <p class="filter-title">Orange Peel</p>
+                                            </div>
+                                            <div id="sinCity-filter" class="filter-container">
+                                                <img src="img/preset/sinCity.png" alt="">
+                                                <p class="filter-title">Sin City</p>
+                                            </div>
+                                    </div>
+
+                                    <div class="row-filters-container">
+                                            <div id="oldBoot-filter" class="filter-container">
+                                                <img src="img/preset/oldBoot.png" alt="">
+                                                <p class="filter-title">Old Boot</p>
+                                            </div>
+                                            <div id="lomo-filter" class="filter-container">
+                                                <img src="img/preset/lomo.png" alt="">
+                                                <p class="filter-title">Lomo</p>
+                                            </div>
+                                    </div>
+
+                                    <div class="row-filters-container">
+                                            <div id="concentrate-filter" class="filter-container">
+                                                <img src="img/preset/concentrate.png" alt="">
+                                                <p class="filter-title">Concentrate</p>
+                                            </div>
+                                            <div id="vintage-filter" class="filter-container">
+                                                <img src="img/preset/vintage.png" alt="">
+                                                <p class="filter-title">Vintage</p>
+                                            </div>
+                                    </div>
+
+                                    <div class="row-filters-container">
+                                            <div id="glowingSun-filter" class="filter-container">
+                                                <img src="img/preset/glowingSun.png" alt="">
+                                                <p class="filter-title">Glowing Sun</p>
+                                            </div>
+                                            <div id="crossProcess-filter" class="filter-container">
+                                                <img src="img/preset/crossProcess.png" alt="">
+                                                <p class="filter-title">Cross Process</p>
+                                            </div>
+                                    </div>
+
+                                    <div class="row-filters-container">
+                                            <div id="herMajesty-filter" class="filter-container">
+                                                <img src="img/preset/herMajesty.png" alt="">
+                                                <p class="filter-title">Her Majesty</p>
+                                            </div>
+                                            <div id="nostalgia-filter" class="filter-container">
+                                                <img src="img/preset/nostalgia.png" alt="">
+                                                <p class="filter-title">Nostalgia</p>
+                                            </div>
+                                    </div>
+
+                                </div>
+
+                        </div>
+                        
+                        <div class="paintArea" style="display: none;">
+                            <h2 class="panel-header">Paint Tools</h2>
+
+                            <div class="paint-tools">
+                                <h3> Brush</h3>
+                                <p>Brush Color:</p>
+                                <input class="colorpicker" id="brush-color" style="width: 100%;">
+                                <br>
+
+                                <p>Brush Size:</p>
+                                <i id="paint-small" class="paint-size fas fa-circle"></i>
+                                <i id="paint-medium" class="paint-size fas fa-circle"></i>
+                                <i id="paint-normal" class="paint-size fas fa-circle"></i>
+                                <i id="paint-large" class="paint-size fas fa-circle"></i>
+                                <i id="paint-huge" class="paint-size fas fa-circle"></i>
+
+                                <hr style="margin:10px 0;">
+
+                                <h3>Text</h3>
+
+                                <form action="" name="text-attr" autocomplete="off">
+                                    <input type="text" id="paint-text" placeholder="Insert text here"> <br>
+
+                                    <p>Text Size:</p>
+                                    <select name="" id="paint-text-size">
+                                        <option value="20px">Small</option>
+                                        <option value="50px">Medium</option>
+                                        <option value="70px" selected>Normal</option>
+                                        <option value="100px">Large</option>
+                                        <option value="150px">Huge</option>
+                                    </select> 
+                                    <br>
+
+                                    <p>Text Font:</p> 
+                                        <select name="" id="paint-text-font">
+                                            <option value="Calibri" selected>Calibri</option>
+                                            <option value="Arial">Arial</option>
+                                            <option value="Times">Times</option>
+                                            <option value="Helvetica">Helvetica</option>
+                                        </select> 
+                                    <br>
+
+                                    <p>Text Style:</p> 
+                                        <select name="" id="paint-text-style">
+                                            <option value="normal" selected>Normal</option>
+                                            <option value="italic">Italic</option>
+                                            <option value="bold">Bold</option>
+                                        </select> 
+                                    <br>
+                                </form>
+                                
+                                <p>Text Color:</p>
+                                <input id="text-color" class="colorpicker" style="width: 100%;">
+    
+                                <div class="main-buttons">
+                                    <button id="paint-save">Save</button>
+                                    <button id="paint-clear">Clear</button>
+                                </div>
                             </div>
+                        
+                        </div>
 
-                            
-                    </div>
+                     <!-- end editor -->
+                 </div>
                     
-                    
-                    <!-- end editor -->
-                </div>
-                
                 <!-- end main stage -->
-            </div>            
-
+            </div>                
             <!-- end container -->
-        </div> 
+        </div>
+
+        <div style="color:white;">V1.0</div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.js"></script>
-        <script src="main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.0/cropper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
+        <script src="js/draw.js"></script>
+        <script src="js/main.js"></script>
     </body>
 </html>
